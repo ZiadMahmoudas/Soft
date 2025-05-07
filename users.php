@@ -155,9 +155,9 @@ class Ticket {
             $this->db->prepare("UPDATE users SET balance = balance - :price WHERE user_id = :user_id")
                      ->execute([':price' => $price, ':user_id' => $user_id]);
 
-            echo "Ticket booked!";
+            return "Ticket booked!";
         } else {
-            echo "Insufficient balance.";
+            return "Insufficient balance.";
         }
     }
 

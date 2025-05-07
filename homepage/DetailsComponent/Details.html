@@ -70,7 +70,7 @@
                 </ul>
             </div>
             <div>
-                <button type="button" class="btn btn-danger lang-text" data-lang="LogOut">LogOut</button>
+                <button type="button" id="logout" class="btn btn-danger lang-text" data-lang="LogOut">LogOut</button>
             </div>
         </div>
     </nav>
@@ -83,15 +83,15 @@
         <img id="image" src="" alt="item image" />
      </div>
     </div>
-    <h1>Booking For Receive Ticket</h1>
+    <h1 class="pb-3">Booking For Receive Ticket</h1>
         <div class="col-12 col-md-12 ">
-            <form class=" flex-column d-flex justify-content-center">
+            <form id="ticketForm" class="flex-column d-flex justify-content-center">
                 <div class="mb-3">
-                  <select class="form-select" aria-label="Default select example">
+                  <select id="source" class="form-select" aria-label="Source">
                     <option selected>Source Way</option>
-                    <option value="1">Cairo</option>
-                    <option value="2">Giza</option>
-                    <option value="3">Alexandria</option>
+                    <option value="Cairo">Cairo</option>
+                    <option value="Giza">Giza</option>
+                    <option value="Alexandria">Alexandria</option>
                     <option value="4">Dakahlia</option>
                     <option value="5">Beheira</option>
                     <option value="6">Kafr El Sheikh</option>
@@ -116,11 +116,11 @@
                   </select>
                 </div>
                 <div class="mb-3">
-                  <select class="form-select" aria-label="Default select example">
-                    <option selected>Dentation Way</option>
-                    <option value="1">Cairo</option>
-                    <option value="2">Giza</option>
-                    <option value="3">Alexandria</option>
+                  <select id="destination" class="form-select" aria-label="Destination">
+                    <option selected>Destination Way</option>
+                    <option value="Luxor">Luxor</option>
+                    <option value="Aswan">Aswan</option>
+                    <option value="Alexandria">Alexandria</option>
                     <option value="4">Dakahlia</option>
                     <option value="5">Beheira</option>
                     <option value="6">Kafr El Sheikh</option>
@@ -145,24 +145,22 @@
                   </select>
                 </div>
                 <div class="mb-3">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>You Can Choice Your Train</option>
-                        <option value="1">VIP</option>
-                        <option value="2">Economic</option>
+                    <select id="class" class="form-select" aria-label="Class">
+                        <option selected>Class</option>
+                        <option value="Economy">Economy</option>
+                        <option value="VIP">VIP</option>
                       </select>
                 </div>
                 <div class="mb-3">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>You Can Choice Your Trip</option>
-                        <option value="1">ONEWAY</option>
-                        <option value="2">TWOWAY</option>
+                    <select id="ticket_type" class="form-select" aria-label="Ticket Type">
+                        <option selected>Ticket Type</option>
+                        <option value="One-way">One-way</option>
+                        <option value="Round-trip">Round-trip</option>
                       </select>
                 </div>
                 <div class="mb-3">
-                        <label for="source">Source Date</label>
-                        <input class="form-control" type="text" name="" id="source">
-                         <label for="dest">Dentation Date</label>
-                         <input class="form-control" type="text" name="" id="dest">
+                    <p id="price">Price: $0</p>
+                    <input type="hidden" id="priceInput" name="price" value="0">
                 </div>
                 <div class="mb-3 form-check">
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -218,6 +216,7 @@
     </div>
 </footer>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
  <!-- <script src="../../componentJS/Date.js"></script>
