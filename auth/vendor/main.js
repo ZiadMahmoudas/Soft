@@ -130,7 +130,7 @@ btnSignUp.addEventListener("click", async function (e) {
     formData.append("password", fields.password);
 
     try {
-      const response = await fetch('', { method: 'POST', body: formData });
+      const response = await fetch('signup.php', { method: 'POST', body: formData });
       const result = await response.json();
 
       if (result.status === "success") {
@@ -140,7 +140,9 @@ btnSignUp.addEventListener("click", async function (e) {
           text: 'You will be redirected to the login page.',
           timer: 2000,
           showConfirmButton: true
-        })
+        }).then(() => {
+          window.location.href = "./signup.html";
+        });
       } else {
         Swal.fire({
           icon: 'error',
@@ -155,8 +157,6 @@ btnSignUp.addEventListener("click", async function (e) {
   formSign.reset();
 });
 
-
-// Login button click handler
 btnLoginIN.addEventListener("click", async function (e) {
   e.preventDefault();
 
@@ -183,12 +183,11 @@ btnLoginIN.addEventListener("click", async function (e) {
     formData.append("name", fields.name);
     formData.append("password", fields.password);
 
+    try {
+      const response = await fetch('signup.php', { method: 'POST', body: formData });
+      const result = await response.json(); 
+      console.log("Login response:", result);
 
-      console.log("Sending login data:", fields); 
-      const response = await fetch('', { method: 'POST', body: formData });
-      const result = await response.json();
-      console.log("Login response:", result); 
-     
       formlogin.reset();
       if (result.status === "success") {
         Swal.fire({
@@ -199,22 +198,20 @@ btnLoginIN.addEventListener("click", async function (e) {
           showConfirmButton: true
         }).then(() => {
           if (result.isAdmin) {
-            window.location.href = "../../Admin/admin.html";
+            window.location.href = "http://localhost/project/Admin/admin.html";
           } else {
-           
-            window.location.href = "../../DetailsUSER/main.js";
+            window.location.href = "http://localhost/project/DetailsUSER/detatilsuser.html";
           }
         });
-      }
-    
-      
-      else {
+      } else {
         Swal.fire({
           icon: 'error',
           title: 'Login Failed',
           text: result.message
         });
-      
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
     }
   }
 });

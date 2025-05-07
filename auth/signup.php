@@ -1,6 +1,8 @@
 <?php
 header("Content-Type: application/json");
 require_once '../users.php';
+file_put_contents('php://stderr', print_r($_POST, true));
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
 
@@ -8,27 +10,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = $_POST['name'];
         $password = $_POST['password'];
 
-        // Check if the user is an admin
+        // Log login attempt
+        file_put_contents('php://stderr', "Login attempt: $name\n", FILE_APPEND);
+
         $adminResult = (new Admin())->login($name, $password);
         if ($adminResult) {
             echo json_encode(['status' => 'success', 'isAdmin' => true, 'message' => 'Admin login successful']);
             exit;
         }
 
-        // Check if the user is a regular user
         $userResult = (new User())->login($name, $password);
         if ($userResult) {
             echo json_encode(['status' => 'success', 'isAdmin' => false, 'message' => 'User login successful']);
             exit;
         }
 
-        // If neither, return an error
         echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);
         exit;
-    } elseif ($action === 'signup') {
+    }
+
+    if ($action === 'signup') {
         $name = $_POST['name'];
         $address = $_POST['address'];
         $password = $_POST['password'];
+
+        // Log signup attempt
+        file_put_contents('php://stderr', "Signup attempt: $name\n", FILE_APPEND);
 
         try {
             (new User())->signup($name, $address, $password);
@@ -36,8 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => 'Signup failed: ' . $e->getMessage()]);
         }
+        exit;
     }
-    exit;
 }
-
 ?>

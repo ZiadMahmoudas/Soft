@@ -1,15 +1,18 @@
 let logout = document.getElementById("logout");
-console.log(logout);
-console.log(555);
+
 logout.addEventListener("click", async function () {
+  // Clear the token from localStorage
+  localStorage.removeItem("authToken");
 
-    await fetch('', {
-      method: 'POST', 
-      credentials: 'include' 
-    });
-
-    window.location.href = 'http://localhost/project/LoginANDSign/signup.php';
+  // Optionally notify the backend about the logout
+  await fetch('http://localhost/project/auth/signup.php', {
+    method: 'POST',
+    body: new URLSearchParams({ action: 'logout' }),
   });
+
+  // Redirect to the login page
+  window.location.href = 'http://localhost/project/auth/signup.html';
+});
 
 
 
