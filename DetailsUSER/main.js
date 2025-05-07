@@ -8,29 +8,55 @@ logout.addEventListener("click", function () {
   window.location.href = 'http://localhost/project/auth/signup.html';
 });
 
-// Fetch and display user balance
-async function fetchBalance() {
-  const userId = 1; // Replace with dynamic user_id (e.g., from session or localStorage)
-
-  const formData = new FormData();
-  formData.append("user_id", userId);
-
+// Fetch and display user profile
+async function fetchUserProfile() {
   try {
-    const response = await fetch("getBalance.php", { method: "POST", body: formData });
+    const response = await fetch("getUserProfile.php", { method: "GET" });
     const result = await response.json();
 
     if (result.status === "success") {
-      document.getElementById("balance").innerText = `Balance: $${result.balance}`;
+      // Update user profile fields dynamically
+      document.querySelector(".coll h3").innerText = `Hello User: ${result.data.name}`;
+      document.querySelector(".coll p").innerText = `Balance: $${result.data.balance}`;
     } else {
       console.error(result.message);
     }
   } catch (error) {
-    console.error("Error fetching balance:", error);
+    console.error("Error fetching user profile:", error);
   }
 }
 
-// Call fetchBalance on page load
-fetchBalance();
+// Save updated profile
+async function saveUserProfile() {
+  const updatedProfile = {
+    first_name: document.getElementById("FirstName").value.trim(),
+    address: document.getElementById("Address").value.trim(),
+    password: document.getElementById("Password").value.trim(),
+  };
+
+  try {
+    const response = await fetch("updateUserProfile.php", {
+      method: "POST",
+      body: JSON.stringify(updatedProfile),
+    });
+    const result = await response.json();
+
+    if (result.status === "success") {
+      alert("Profile updated successfully!");
+      fetchUserProfile(); // Refresh profile data
+    } else {
+      alert("Error updating profile: " + result.message);
+    }
+  } catch (error) {
+    console.error("Error saving user profile:", error);
+  }
+}
+
+// Attach event listener to the save button
+document.querySelector(".edit").addEventListener("click", saveUserProfile);
+
+// Call fetchUserProfile on page load
+fetchUserProfile();
 
 
 

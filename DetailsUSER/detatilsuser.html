@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,14 +25,17 @@
                     </div>
                </div>
                 <div class="col-12 col-md-4 coll py-5 d-flex flex-column">
-                     <h3 >Hello User : Ziad Mahmoud</h3>
-                     <hr >
+                     <h3>Hello User: Loading...</h3> <!-- Placeholder for dynamic user name -->
+                     <hr>
                      <div class="container d-flex flex-column gap-4">         
                              <a href="../homepage/home.html" class="d-flex  align-items-center gap-5">
                                <i class="fa-solid fa-house-user" style="color: #ffffff;"></i>
                                <span>Home</span>
                              </a>   
-                             <p style="font-size: 1.8125rem;">Balance : 0$</p>   
+                             <p style="font-size: 1.8125rem;">Balance: Loading...</p> <!-- Placeholder for dynamic balance -->
+                             <div>
+                                <button class="btn btn-primary" onclick="window.location.href='../auth/signup.html'">Add Balance</button>
+                             </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-8 py-4">
@@ -45,31 +46,25 @@
                         <div class="row rowq">
                             <div class="col-12 col-md-6 py-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="FirstName">FirstName</label>
-                                    <input class="form-control" type="text" id="FirstName" placeholder="FirstName">
+                                    <label class="form-label" for="FirstName">First Name</label>
+                                    <input class="form-control" type="text" id="FirstName" placeholder="First Name">
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 py-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="LastName">LastName</label>
-                                    <input class="form-control" type="text" id="LastName" placeholder="LastName">
+                                    <label class="form-label" for="Address">Address</label>
+                                    <input class="form-control" type="text" id="Address" placeholder="Last Name">
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 py-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="Country">Country</label>
-                                    <input class="form-control" type="text" id="Country" placeholder="Country">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 py-3">
-                                <div class="form-group">
-                                    <label class="form-label" for="Email">Email</label>
-                                    <input class="form-control" type="text" id="Email" placeholder="Email">
+                                    <label class="form-label" for="Password">Password</label>
+                                    <input class="form-control" type="text" id="Password" placeholder="Country">
                                 </div>
                             </div>
                             <div class="">
-                            <button class="btn btn-success edit">Edit Your Profile</button>
-                           </div>
+                                <button class="btn btn-success edit">Save Changes</button>
+                            </div>
                         </div>
                 </div>
             </div>

@@ -18,9 +18,9 @@ class DBConnection {
     private $connection;
 
     private function __construct() {
-     
         try {
             $this->connection = new PDO("mysql:host=localhost;dbname=softwareproject", "root", "");
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             die("Database connection failed: " . $e->getMessage());
