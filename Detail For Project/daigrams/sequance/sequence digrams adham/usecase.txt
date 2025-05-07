@@ -1,0 +1,6 @@
+book a ticket
+choose vip/economy
+recharge the balance
+view station facilities
+update train departure time
+log train arrival

@@ -1,0 +1,90 @@
+<?php
+require_once '../users.php';
+require_once '../logout.php';
+
+//   header("location: ../auth/signup.php");
+  $adminResult = (new Admin())->logout();
+  $userResult = (new User())->logout();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DetailsUser</title>
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/flag-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="../componentCSS/StaticStyles/staticCss.css">
+        <link rel="stylesheet" href="detailsuser.css">
+</head>
+<body>
+    <aside> 
+            <div class="row rows">
+                <div class="container bg-body-tertiary  py-4">
+                    <div class="d-flex justify-content-between visa align-items-center">
+                       <p>Your Account</p>
+                       <div class="d-flex gap-4">
+                      <button class="not" type="button"><i class="bi bi-bell"></i><span></span></button>
+                      <button type="submit" class="btn btn-danger" id="logout">LogOut</button>
+                   </div>
+                    </div>
+               </div>
+                <div class="col-12 col-md-4 coll py-5 d-flex flex-column">
+                     <h3 >Hello User : Ziad Mahmoud</h3>
+                     <hr >
+                     <div class="container d-flex flex-column gap-4">         
+                             <a href="../homepage/home.html" class="d-flex  align-items-center gap-5">
+                               <i class="fa-solid fa-house-user" style="color: #ffffff;"></i>
+                               <span>Home</span>
+                             </a>    
+                             <a href="../visaDetails/visa.html" class="d-flex  align-items-center gap-5">
+                             <i class="fa-brands fa-cc-visa"style="color: #ffffff;"></i>
+                               <span>Visa Center</span>
+                             </a>    
+                    </div>
+                </div>
+                <div class="col-12 col-md-8 py-4">
+                       
+                        <div class="container py-4 profile">
+                            <h3 class="text-center">Your Profile Account</h3>
+                        </div>
+                        <div class="row rowq">
+                            <div class="col-12 col-md-6 py-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="FirstName">FirstName</label>
+                                    <input class="form-control" type="text" id="FirstName" placeholder="FirstName">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 py-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="LastName">LastName</label>
+                                    <input class="form-control" type="text" id="LastName" placeholder="LastName">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 py-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="Country">Country</label>
+                                    <input class="form-control" type="text" id="Country" placeholder="Country">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 py-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="Email">Email</label>
+                                    <input class="form-control" type="text" id="Email" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="">
+                            <button class="btn btn-success edit">Edit Your Profile</button>
+                           </div>
+                        </div>
+                </div>
+            </div>
+    </aside>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script src="main.js" type="module"></script>
+</html>

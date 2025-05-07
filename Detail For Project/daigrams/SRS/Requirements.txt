@@ -1,0 +1,33 @@
+1- local train 
+2- tickets and get ticket
+receipts online and offline and print the ticket
+3- user and admin login (func requrierment)
+4-  make a form for destenation and source 
+5-The system’s database should be filled with all available
+stations
+6- abstract model ( The system’s database should be filled with all available
+stations. It can be modified for any other city as needed.)
+7- single journey (one way) or a return ticket and whether the journey will be commenced in
+8- first-class or secondclass carriages
+9- It also consists of an admin account
+10-the admin recharge user account balance 
+11-the admin check for various
+journey tickets processed within the system.
+12-users can get information about train timing
+13- whether a train trip is on time or not,
+and any other relevant information.  (mean if it late it send updates)
+14- track timing by math equasuions.
+15- If the system found any delays in the train’s schedule, it will automatically update the train arrival time
+at the next station and will update the viewers/users with this information
+16 - (previously discussed) There is an admin module that enters the
+details about train trips and their timings/schedule, and these details will be passed on to a server and then fetched by
+the different systems at the other stations (and these systems will then display the information to the viewers on the
+platform)
+17- there are multiple trains and you know there information.
+18-  An admin will enter details about a train’s departure
+and its exact time
+19-Other station masters in every station have a login whereby they may update a train’s arrival time at
+their station when it does arrive (and also its exact departure time). *************
+20- This
+system also publishes real-time train schedule events to multiple clients subscribing to this service through their
+applications

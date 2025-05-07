@@ -1,0 +1,206 @@
+
+.full-screen{
+    position: fixed;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:100%;
+}
+.authfy-panel-left{ 
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 19px;
+}
+.authfy-heading{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.authfy-heading .auth-title{
+    color: #2d385e;
+    font-size: 1.5rem;
+    font-family: Medium;
+}
+.authfy-heading p{
+    font-size: 1.1875rem;
+    color: #47494e;
+}
+.authfy-heading p button{
+    color: #1c5cfd;
+    transition: 0.3s ease-in-out all;
+}
+.authfy-heading p button:hover{
+    color: #012b96;
+}   
+.authfy-login .social-buttons .btn-google {
+    background: #c32f10;
+}
+.authfy-login .social-buttons a {
+    color: white;
+}
+.authfy-login .social-buttons .btn-twitter {
+    background: #00aced;
+}
+
+.authfy-login .social-buttons a {
+    color: white;
+}
+.authfy-login .social-buttons .btn-facebook {
+    background: #3b5998;
+}
+.spanOr{
+    font-size: 25px;
+    font-family: thin;
+    position: relative;
+    display: block;
+}
+
+.authfy-login .social-buttons a {
+    color: white;
+}
+.panel-login{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.form-group{
+    padding: 14px !important;
+    position: relative;
+}
+.form-control::placeholder{
+    color: #696a6e;
+}
+.form-control{
+    padding-block: 12px;
+    border: 3px solid rgb(185, 179, 179);
+}
+.authfy-login {
+    min-height: 510px;
+    position: relative;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+.not,.account{
+    color: #3b5998;
+    transition: all 0.2s ease-in-out;
+}
+.not:hover,.account:hover{
+    text-decoration: underline;
+    color: #012b96;
+}
+.authfy-panel {
+    padding: 0px 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all .5s ease;
+    opacity: 0;
+    transform: translateX(-100%);
+    
+}
+.authfy-login .authfy-panel.active {
+    opacity: 1;
+    transform: translateX(0%);
+}
+.term-policy{
+    font-size: 0.8rem;
+}
+.term-policy a{
+    text-decoration: underline;
+}
+.form-group .eye{
+position: absolute;
+top: 41px;
+    font-size: 20px;
+    left: 88%;
+cursor: pointer;
+transform: translate(-50%, -50%);
+}
+.form-group .eye1{
+    position: absolute;
+    top: 41px;
+    font-size: 20px;
+    left: 88%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    }
+.forget:hover{
+    text-decoration: underline;
+}
+
+.remember-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#SignIN{
+    width: 100%;
+}
+.hero-heading{
+    display: none;
+}
+@media(min-width:576px){
+    
+}
+@media(min-width:768px){
+    .full-screen{
+        background-image: url(../../componentImages/img/computer-1867758_1920-min.jpg);
+    }
+    .authfy-panel-right{
+        display: none;
+        color: #fff;
+    }
+    .hero-heading{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+    }
+    .spanOr::after{
+        position: absolute;
+        content: '';
+        height: 2px;
+        width: 30%;
+        background-color: #a9abad;
+        top: 70%;
+        left: 78%;
+        transform: translate(-50%, -50%);
+    }
+    .spanOr::before{
+        position: absolute;
+        content: '';
+        height: 2px;
+        width: 30%;
+        background-color: #a9abad;
+        top: 70%;
+        left: 22%;
+        transform: translate(-50%, -50%);
+    }
+}
+@media(min-width:992px){
+    .authfy-panel-right{
+        background-color: rgb(45, 56, 94, 0.9);
+        display: block;
+    }
+    .hero-heading .headline h3 {
+        color: #fff;
+        font-size: 3rem;
+        font-family: Bold;
+    }
+    .hero-heading .headline p{
+        color: #fff;
+        font-size: 2rem;
+        font-family: Regular;
+    }
+}

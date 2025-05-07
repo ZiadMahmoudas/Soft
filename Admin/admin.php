@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <!-- <link rel="stylesheet" href="../componentCSS/StaticStyles/all.min.css">
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/bootstrap-icons.css">
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/bootstrap.min.css">
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/flag-icons.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/staticCss.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container-fluid">
+          <a class="navbar-brand"><img class="img-fluid" src="../componentImages/img/brand-logo.png" alt=""></a>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          </form>
+        </div>
+      </nav>
+      <section class="sec">
+        <h1>DashBoard</h1>
+        <div class="total">
+        <div class="container-fluid">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+            <h2>Invoice Details</h2>
+            <div class="">
+            <button class="btn btn-primary mt-3 d-flex gap-2"><i class="bi bi-plus-lg"></i><span>Add New Invoice</span></button>
+        </div>
+        </div>
+           </div>
+            <div class="row">
+               <div class="col-2">
+                <h3>ID</h3>
+                <div>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                </div>
+               </div>
+               <div class="col-2">
+                <h3>Client</h3>
+                <div>
+                    <p>Ahmed Saeed</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                </div>
+               </div>
+               <div class="col-2">
+                <h3>Email</h3>
+                <div>
+                    <p>Ahmed Saeed@Gmail.com</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                </div>
+               </div>
+               <div class="col-2">
+                <h3>Source</h3>
+                <div>
+                    <p>28-4-2025</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                </div>
+               </div>
+               <div class="col-2">
+                <h3>Dest</h3>
+                <div>
+                    <p>20-5-2025</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                </div>
+               </div>
+               <div class="col-2">
+                <h3>Amount</h3>
+                <div>
+                    <p>$34,29</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                    <p>INV-0018147</p>
+                </div>
+               </div>
+               <div class="col-2">
+                <h3>Options</h3>
+                <div class="">
+                    <button class="btn btn-primary my-3"><i class="bi bi-upload"></i></button>
+                    <button class="btn btn-success my-3"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-danger my-3"><i class="bi bi-trash-fill"></i></button>
+                </div>
+               </div>
+            </div>
+        </div>
+    </div>
+      </section>
+      <footer class="pt-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a class="navbar-brand" href="#"><img src="../componentImages/img/brand-logo.png" alt=""></a>
+                        <hr>
+                        <div class="par">
+                            <p>Suspendisse sed sollicitudin nisl, at dignissim libero. Sed porta tincidunt ipsum, vel volutpat.</p>
+                            <p>Nunc ut fringilla urna. Cras vel adipiscing ipsum. Integer dignissim nisl eu lacus interdum facilisis. Aliquam erat volutpat. Nulla</p>
+                        </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 coll">
+                    <h2 class="text-uppercase">contact info</h2>
+                    <div class="address">
+                        <h4>address</h4>
+                        <p>Hotel Finder</p>
+                        <p>120 CA 15th Avenue-Suite 214, USA</p>
+                    </div>
+                        <hr>
+                        <div class="number">
+                        <p>phone number</p>
+                        <span>01100133486</span>
+                    </div>
+                    <hr>
+                    <div class="number">
+                        <p>Email Address</p>
+                        <span>ziadbobo78@gmail.com</span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 coll">
+                    <h2 class="text-uppercase">pages</h2>
+                   <ul class="pages">
+                    <li>
+                    <a href="../homepage/home.html">Home</a>
+                </li>
+                <li>
+                    <a href="#">Blog</a>
+                </li>
+                <li>
+                    <a href="../About/index.html">About</a>
+                </li>
+                   </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="main.js"></script>
+</html>

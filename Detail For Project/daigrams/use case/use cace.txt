@@ -1,0 +1,53 @@
+stake figers 
+1- Admin
+2- User 
+3- station master
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+							Use cases  
+
+1- sign up 
+2-(include check Dupplication)
+3- log in 
+4-(include check data) 
+5- log out
+6- book  a ticket
+ 	 7-(extend-> check balance) 
+	 8-(include -> pay) 
+	 9-(include-> choose vip\economy)
+ 	 10-(include -> one way \ two way)
+	 11-(include choose source\ detination)
+	 12-(include choose number of tickets) 
+	 13-(extend-> View Available Discounts / Offer)
+
+
+14- cancel the trip 
+15-(include -> retrieve ticket's value) 
+   (extend ->check balance)
+16- print the ticket
+17- show train schedual
+18- view trip path
+19- update my profile 
+20-(include -> change password )
+21- (Admin)-> update train schedual
+22- recharge the balance
+23- add new staion (Admin)
+24- send a notification of the expected delay
+    25-(include -> calculate the expected delay)
+26-share a feedback 
+27-(extend -> Report a Problem)
+28- Generate Reports (sales , user statitics)
+29- View Station Facilities
+30- search by source\destination\ date \ model
+31- select the language
+32-View Ticket History
+33-View Notification History
+34-Save Station as Favorite
+35-Switch Account
+36-Enable Dark Mode
+37-Remember Me
+
+
+
+    
+	
+

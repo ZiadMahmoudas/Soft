@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <!-- <link rel="stylesheet" href="../componentCSS/StaticStyles/all.min.css">
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/bootstrap-icons.css">
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/bootstrap.min.css">
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/swiper-bundle.min.css"> -->
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/flag-icons.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../componentCSS/StaticStyles/staticCss.css">
+    <link rel="stylesheet" href="style/home.css">
+</head>
+<body>
+    <div class="box">
+        <button id="toggle-box">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+    <div class="collection">
+    <button id="change-mode"><i class="fa-solid fa-sun"></i></button>
+    <button id="arrowUP"><i class="bi bi-arrow-up"></i></button>
+</div>
+</div>
+    <section>
+        <div class="top-navbar">
+            <nav class="navbar navbar-expand ">
+                <div class="container">
+                    <a class="navbar-brand " href="#" ><i class="bi bi-train-front-fill"></i><span class="lang-text" data-lang="train">Train
+                            Station</span></a>
+                    <div class="">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown ok">
+                                <a class="nav-link dropdown-toggle lang-text" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" data-lang="lang" >      
+                                </a>
+                                <ul class="dropdown-menu lang">
+                                    <li ><a class="dropdown-item" data-lang="en">
+                                        <span class="fi fi-gb"></span>
+                                        <span class="lang-text" data-lang="en" ></span></a></li>
+                                    <li ><a class="dropdown-item" data-lang="ar">
+                                        <span class=" fi fi-eg"></span>
+                                        <span class="lang-text" data-lang="ar" ></span></a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <button type="button" onclick="location.href='../DetailsUSER/detatilsuser.html'"><i class="bi bi-person-circle"></i></button>      
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+    <nav class="navbar down-nav navbar-expand-md">
+        <div class="container bars">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list"></i>
+            </button>
+            <div class="collapse navbar-collapse collapsing" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link lang-text " aria-current="page" href="home.html"data-lang="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link lang-text" href="../TrainSchedule/train.html" >Train Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link lang-text" href="../About/About.html"data-lang="about">About</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+            <button type="button" class="btn btn-danger lang-text" data-lang="LogOut">LogOut</button>
+        </div>
+        </div>
+    </nav>
+    <section class="sec hero-section">
+        <div class="myswiper swiper">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                    <div class="position-relative pic">
+                        <img src="../componentImages/img/TrainSwap1.WebP" alt="">
+                        <div class="overlay  position-absolute">
+                            <div class="stars">
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <h2 data-lang="find" class="lang-text">Find Your Perfect Train</h2>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="swiper-slide">
+                    <div class="position-relative pic">
+                        <img src="../componentImages/img/Acela-II-Test-Run-HQ-2132-scaled-1-1024x683.WebP" alt="">
+                        <div class="overlay  position-absolute">
+                            <div class="stars">
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <h2 data-lang="find" class="lang-text">Find Your Perfect Train</h2>
+                            
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <div class="position-absolute Book">
+        <a class="btn btn-primary lang-text" href="#book" type="button" data-lang="Book">Book a Ticket</a>
+    </div>
+    </section>
+    <main>
+        <section class="sec1 pt-5" id="book">
+                <h3 class="dest">Booking Options</h3>
+                <div class="MYswiper swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide  py-4">
+                            <div class="card cards" style="width: 18rem;">
+                                <div class="htlfndr-post-content">
+                                    <p class="htlfndr-the-excerpt">High speed and limited stops – ideal for fast travel between Cairo and Alexandria <a class="htlfndr-read-more-arrow"
+                                        target="_blank"
+                                        href="DetailsComponent/Details.html?title=King%20Size&image=train1.webp"><i class="fa fa-angle-right"></i></a> </p>
+                                    <div class="htlfndr-services">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Free WI-FI</div>
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Incl. breakfast</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7 col-xs-7 htlfndr-service">Private balcony</div>
+                                            <div class="col-sm-5 col-xs-5 htlfndr-service">Bathroom</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="../componentImages/img/train1.webp" class="card-img-top" alt="...">
+                                <div class="card-body card-body1">
+                                    <div class="d-flex flex-column gap-1">
+                                        <h5 class="card-title card-title1">King Size</h5>
+                                        <div class="starstitle">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide  py-4">
+                            <div class="card cards" style="width: 18rem;">
+                                <img src="../componentImages/img/train2.webp" class="card-img-top" alt="...">
+                                <div class="htlfndr-post-content">
+                                    <p class="htlfndr-the-excerpt">High speed and limited stops – ideal for fast travel between Cairo and Alexandria <a class="htlfndr-read-more-arrow"
+                                        target="_blank"
+                                        href="DetailsComponent/Details.html?title=Turbo&image=train2.webp"><i class="fa fa-angle-right"></i></a> </p>
+                                    <div class="htlfndr-services">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Free WI-FI</div>
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Incl. breakfast</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7 col-xs-7 htlfndr-service">Private balcony</div>
+                                            <div class="col-sm-5 col-xs-5 htlfndr-service">Bathroom</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body card-body1">
+                                    <div class="d-flex flex-column gap-1">
+                                        <h5 class="card-title card-title1">Turbo</h5>
+                                        <div class="starstitle">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide  py-4">
+                            <div class="card cards" style="width: 18rem;">
+                                <img src="../componentImages/img/train6.webp" class="card-img-top" alt="...">
+                                <div class="htlfndr-post-content">
+                                    <p class="htlfndr-the-excerpt">Feature: A/C train with good speed and more comfort than regular trains <a class="htlfndr-read-more-arrow"
+                                        target="_blank"
+                                        href="DetailsComponent/Details.html?title=Express%20Train&image=train6.webp"><i class="fa fa-angle-right"></i></a> </p>
+                                    <div class="htlfndr-services">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Free WI-FI</div>
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Incl. breakfast</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7 col-xs-7 htlfndr-service">Private balcony</div>
+                                            <div class="col-sm-5 col-xs-5 htlfndr-service">Bathroom</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body card-body1">
+                                    <div class="d-flex flex-column gap-1">
+                                        <h5 class="card-title card-title1">Express Train</h5>
+                                        <div class="starstitle">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide  py-4">
+                            <div class="card cards" style="width: 18rem;">
+                                <img src="../componentImages/img/train4.webp" class="card-img-top" alt="...">
+                                <div class="htlfndr-post-content">
+                                    <p class="htlfndr-the-excerpt">Feature: Balance between price and comfort – decent seating with air conditioning <a class="htlfndr-read-more-arrow"
+                                        target="_blank"
+                                        href="DetailsComponent/Details.html?title=Air-conditioned%20Trains&image=train4.webp"><i class="fa fa-angle-right"></i></a> </p>
+                                    <div class="htlfndr-services">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Free WI-FI</div>
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Incl. breakfast</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7 col-xs-7 htlfndr-service">Private balcony</div>
+                                            <div class="col-sm-5 col-xs-5 htlfndr-service">Bathroom</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body card-body1">
+                                    <div class="d-flex flex-column gap-1">
+                                        <h5 class="card-title card-title1">Air-conditioned Trains</h5>
+                                        <div class="starstitle">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide  py-4">
+                            <div class="card cards"  style="width: 18rem;">
+                                <img src="../componentImages/img/train5.webp" class="card-img-top" alt="...">
+                                <div class="htlfndr-post-content">
+                                    <p class="htlfndr-the-excerpt">Feature: Modern design, air-conditioned, and comfortable seats – used for long-distance travel <a class="htlfndr-read-more-arrow"
+                                        target="_blank"
+                                        href="DetailsComponent/Details.html?title=Tourist%20Trains&image=train5.webp"><i class="fa fa-angle-right"></i></a> </p>
+                                    <div class="htlfndr-services">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Free WI-FI</div>
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Incl. breakfast</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7 col-xs-7 htlfndr-service">Private balcony</div>
+                                            <div class="col-sm-5 col-xs-5 htlfndr-service">Bathroom</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body card-body1">
+                                    <div class="d-flex flex-column gap-1">
+                                        <h5 class="card-title card-title1">Tourist Trains</h5>
+                                        <div class="starstitle">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide  py-4">
+                            <div class="card cards"  style="width: 18rem;">
+                                <img src="../componentImages/img/train0.webp" class="card-img-top" alt="...">
+                                <div class="htlfndr-post-content">
+                                    <p class="htlfndr-the-excerpt">Feature: Premium service with better seating, meals, and quieter cabins <a class="htlfndr-read-more-arrow"
+                                        target="_blank"
+                                        href="DetailsComponent/Details.html?title=Regular%20Trains&image=train0.webp"><i class="fa fa-angle-right"></i></a> </p>
+                                    <div class="htlfndr-services">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Free WI-FI</div>
+                                            <div class="col-sm-6 col-xs-6 htlfndr-service">Incl. breakfast</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7 col-xs-7 htlfndr-service">Private balcony</div>
+                                            <div class="col-sm-5 col-xs-5 htlfndr-service">Bathroom</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body card-body1">
+                                    <div class="d-flex flex-column gap-1">
+                                        <h5 class="card-title card-title1">Regular Trains</h5>
+                                        <div class="starstitle">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+        </section>
+        <section class="container-fluid htlfndr-usp-section my-5 py-4">
+            <h2 class="htlfndr-section-title htlfndr-lined-title"><span>USP section</span></h2>
+            <div class="container">
+                <div class="row rows">
+                    <div class="col-sm-6 col-lg-4 htlfndr-icon-box child-col"> <img class="htlfndr-icon icon-drinks"
+                            src="../componentImages/img/icon-ups-check.png" height="100" width="100" alt="icon">
+                        <h5 class="htlfndr-section-subtitle">beverages included</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum eleifend augue,
+                            quis rhoncus purus fermentum.</p> <a href="#" class="htlfndr-read-more-button">read more</a>
+                    </div>
+                    <div class="col-sm-6 col-lg-4 htlfndr-icon-box child-col"> <img class="htlfndr-icon icon-drinks"
+                            src="../componentImages/img/icon-ups-card.png" height="100" width="100" alt="icon">
+                        <h5 class="htlfndr-section-subtitle">best deals</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum eleifend augue,
+                            quis rhoncus purus fermentum.</p> <a href="#" class="htlfndr-read-more-button">read more</a>
+                    </div>
+                    <div class="col-sm-6 col-lg-4 htlfndr-icon-box  child-col">
+                        <i class="bi bi-ticket-detailed"></i>
+                        <h5 class="htlfndr-section-subtitle">guarantee</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum eleifend augue,
+                            quis rhoncus purus fermentum.</p> <a href="#" class="htlfndr-read-more-button">read more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="sec2">
+            <div class="container">
+                <h3 class="visit">visitors experienced</h3>
+                <div class="row py-4">
+                    <div class="col-12 col-md-6 col-lg-4 pt-3">
+                        <div class="card">
+                            <div class="card1">
+                                <img class="img-fluid" src="../componentImages/img/visitor-avatar-1.jpg" alt="">
+                                <div class="exp">
+                                    <h4>Sara Connor</h4>
+                                    <p>Travel Magazine</p>
+                                    <div>
+                                        <p class="name">Nunc cursus libero purus ac congue arcu cursus ut sed vitae pulvinar massa idporta nequetiam nar...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 pt-3">
+                        <div class="card">
+                            <div class="card1">
+                                <img class="img-fluid" src="../componentImages/img/visitor-avatar-2.jpg" alt="">
+                                <div class="exp">
+                                    <h4>Mira Young</h4>
+                                    <p>Travel Manager</p>
+                                    <div>
+                                        <p class="name">Nunc cursus libero purus ac congue arcu cursus ut sed vitae pulvinar massa idporta nequetiam nar...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 pt-3">
+                        <div class="card">
+                            <div class="card1">
+                                <img class="img-fluid" src="../componentImages/img/visitor-avatar-3.jpg" alt="">
+                                <div class="exp">
+                                    <h4>John Smith</h4>
+                                    <p>Travel Manager</p>
+                                    <div>
+                                        <p class="name">Nunc cursus libero purus ac congue arcu cursus ut sed vitae pulvinar massa idporta nequetiam nar...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="sec3 py-4">
+            <div class="container">
+            <h3>FeedBack</h3>
+            <div class="row">
+                <div class="form-group col-md-4 py-3">
+                    <input type="text" name="Name" class="form-control" id="Name" placeholder="Name">
+                </div>
+                <div class="form-group col-md-4 py-3">
+                    <input type="text" name="Email" class="form-control" id="Email" placeholder="Email">
+                </div>
+                <div class="form-group col-md-4 py-3">
+                    <input type="text" name="subject" class="form-control" id="subject" placeholder="subject">
+                </div>
+                <div class="form-group col-md-12 py-3">
+                    <textarea rows="6" name="message" class="form-control" id="description" placeholder="Your Message" required="required"></textarea>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="submit" id="sendFeedback" class="contact-form">
+                        Send Message
+                    </button>
+                </div>
+            </div>
+        </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a class="navbar-brand" href="#"><i class="bi bi-train-front-fill"></i><span class="text-uppercase"style="font-size:1.5rem">Train Station</span></a>
+                        <hr>
+                        <div class="par">
+                            <p>Suspendisse sed sollicitudin nisl, at dignissim libero. Sed porta tincidunt ipsum, vel volutpat.</p>
+                            <p>Nunc ut fringilla urna. Cras vel adipiscing ipsum. Integer dignissim nisl eu lacus interdum facilisis. Aliquam erat volutpat. Nulla</p>
+                        </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 coll">
+                    <h2 class="text-uppercase">contact info</h2>
+                    <div class="address">
+                        <h4>address</h4>
+                        <p>Hotel Finder</p>
+                        <p>120 CA 15th Avenue-Suite 214, USA</p>
+                    </div>
+                        <hr>
+                        <div class="number">
+                        <p>phone number</p>
+                        <span>01100133486</span>
+                    </div>
+                    <hr>
+                    <div class="number">
+                        <p>Email Address</p>
+                        <span>ziadbobo78@gmail.com</span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 coll">
+                    <h2 class="text-uppercase">pages</h2>
+                   <ul class="pages">
+                    <li>
+                    <a href="home.html">Home</a>
+                </li>
+                <li>
+                    <a href="#">Blog</a>
+                </li>
+                <li>
+                    <a href="../About/About.html">About</a>
+                </li>
+                   </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- <script src="../componentJS/bootstrap.bundle.js"></script>
+<script src="../componentJS/swiper-bundle.min.js"></script> -->
+<script src="vendor/home.js" type="module"></script>
+
+</html>

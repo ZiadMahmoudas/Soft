@@ -1,0 +1,65 @@
+*{padding: 0;margin: 0;box-sizing: border-box;}
+li,ul{list-style: none;}
+a{text-decoration: none;}
+::-webkit-scrollbar{width: 0.5rem}
+::-webkit-scrollbar-thumb{background-color: rgba(0, 0, 0, 1)}
+::-webkit-scrollbar-thumb:hover{background-color: rgb(32, 22, 22)}
+::-webkit-scrollbar-track{background-color: #eee}
+:root {
+    --pink: #FFCECE;
+    --red: #FF2626;
+    --color:#ff88a6;
+    --bg-color:#252525;
+}
+p,h1,h2,h3,h4,h5,h6{
+    margin-bottom: 0;
+}
+button{
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    background-color: transparent;
+}
+@font-face {
+    font-family: Bold;
+    src: url(../../font-family/Poppins-Bold.ttf);
+}
+@font-face {
+    font-family: Medium;
+    src: url(../../font-family/Poppins-Medium.ttf);
+}
+@font-face {
+    font-family: Regular;
+    src: url(../../font-family/Poppins-Regular.ttf);
+}
+@font-face {
+    font-family: SemiBold;
+    src: url(../../font-family/Poppins-SemiBold.ttf);
+}
+@font-face {
+    font-family: thin;
+    src: url(../../font-family/Poppins-Thin.ttf);
+}
+
+:root{
+    --text-color:rgba(33, 39, 42, 1);
+    --secondary-text:rgba(102, 102, 102, 1);
+    --Header-text:rgba(17, 29, 21, 1);
+    --read-me:rgba(0, 0, 0, 1);
+    --footer-color:rgba(255, 255, 255, 1);
+    --button:rgba(15, 98, 254, 1);
+    --button-hover:rgb(9, 11, 119);
+    --button-hover-text:rgba(255, 255, 233, 1);
+    --border-color:rgba(102, 102, 102, 1);
+    --arrow-color:rgba(157, 157, 157, 1);
+    --border-color-two:rgba(107, 107, 107, 0.5);
+}
+html{
+    scroll-behavior: smooth;
+    font-size: 14px;
+}
+@media (min-width:576px) {
+    html{
+        font-size: 16px;
+    }
+}

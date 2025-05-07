@@ -1,0 +1,82 @@
+.coll{
+    background-color: rgb(2, 14, 194);
+    color: #fff;
+    height: 100vh;
+    gap: 69px;
+}
+.coll h3{
+    font-size: 23px;
+    font-family: Bold;
+}
+.row{
+    margin-left: 0;
+    margin-right: 0;
+}
+hr{
+    width: 100%;
+    left: -4%;
+    position: absolute;
+   margin: 5rem 0;
+   border: 1px solid #8a8787;
+}
+a{
+    color: #fff;
+    transition: 0.3s ease-in-out all;
+    font-size: 20px;
+    font-family: Medium;
+}
+.visa p{
+font-size: 1.2rem;
+font-family: Regular;
+}
+.visa i{
+    font-size: 25px;
+}
+.visa .not{
+    position: relative;
+}
+.visa span{
+    position: absolute;
+    /* display: block; */
+    background-color: #8a8787;
+    height: 10px;
+    width: 10px;
+    left: 55%;
+    top: 15%;
+    border-radius: 50%;
+}
+.profile h1{
+    font-size: 2rem;
+    font-family: Bold;
+}
+.rows{
+    display: flex;
+    flex-direction: column;
+}
+.rowq{
+    display: flex;
+    flex-direction: column;
+}
+.edit{
+    width: 100%;
+}
+label{
+    font-size: 20px;
+    font-family: thin;
+}
+@media(min-width:768px){
+    label{
+        font-size: 1.6875rem;
+    }
+    hr{
+        width: 32.2%;
+        left: 0;
+    }
+    .row{
+        display: flex;
+        flex-direction: row;
+    }  
+    .edit{
+        width: 25%;
+    }
+}
