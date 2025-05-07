@@ -140,9 +140,7 @@ btnSignUp.addEventListener("click", async function (e) {
           text: 'You will be redirected to the login page.',
           timer: 2000,
           showConfirmButton: true
-        }).then(() => {
-          window.location.href = "./signup.php";
-        });
+        })
       } else {
         Swal.fire({
           icon: 'error',
@@ -185,12 +183,12 @@ btnLoginIN.addEventListener("click", async function (e) {
     formData.append("name", fields.name);
     formData.append("password", fields.password);
 
-    try {
+
       console.log("Sending login data:", fields); 
       const response = await fetch('', { method: 'POST', body: formData });
       const result = await response.json();
       console.log("Login response:", result); 
-
+     
       formlogin.reset();
       if (result.status === "success") {
         Swal.fire({
@@ -201,21 +199,22 @@ btnLoginIN.addEventListener("click", async function (e) {
           showConfirmButton: true
         }).then(() => {
           if (result.isAdmin) {
-            window.location.href = "http://localhost/project/Admin/admin.php";
+            window.location.href = "../../Admin/admin.html";
           } else {
            
-            window.location.href = "http://localhost/project/DetailsUSER/detatilsuser.php";
+            window.location.href = "../../DetailsUSER/main.js";
           }
         });
-      } else {
+      }
+    
+      
+      else {
         Swal.fire({
           icon: 'error',
           title: 'Login Failed',
           text: result.message
         });
-      }
-    } catch (error) {
-      console.error("Error during login:", error); 
+      
     }
   }
 });
