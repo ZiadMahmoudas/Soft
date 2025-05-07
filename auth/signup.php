@@ -1,8 +1,6 @@
 <?php
 header("Content-Type: application/json");
 require_once '../users.php';
-
-session_start(); // تأكد من بدء الجلسة
 file_put_contents('php://stderr', print_r($_POST, true));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -15,15 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Log login attempt
         file_put_contents('php://stderr', "Login attempt: $name\n", FILE_APPEND);
 
-        $user = new User();
-        $userResult = $user->login($name, $password);
-
-        if ($userResult) {
-            $_SESSION['user_id'] = $userResult->user_id; // تخزين user_id في الجلسة
-            echo json_encode(['status' => 'success', 'message' => 'Login successful']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);
+        $adminResult = (new Admin())->login($name, $password);
+        if ($adminResult) {
+            echo json_encode(['status' => 'success', 'isAdmin' => true, 'message' => 'Admin login successful']);
+            exit;
         }
+
+        $userResult = (new User())->login($name, $password);
+        if ($userResult) {
+            echo json_encode(['status' => 'success', 'isAdmin' => false, 'message' => 'User login successful']);
+            exit;
+        }
+
+        echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);
         exit;
     }
 

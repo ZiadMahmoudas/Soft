@@ -165,7 +165,19 @@ btnLoginIN.addEventListener("click", async function (e) {
     password: passLogin.value.trim(),
   };
 
-  if (fields.name && fields.password) {
+  let isValid = true;
+
+  if (fields.name === "") {
+    errorBox.style.display = "block";
+    isValid = false;
+  }
+
+  if (fields.password === "") {
+    errorBoxs.style.display = "block";
+    isValid = false;
+  }
+
+  if (isValid) {
     const formData = new FormData();
     formData.append("action", "login");
     formData.append("name", fields.name);
@@ -173,40 +185,33 @@ btnLoginIN.addEventListener("click", async function (e) {
 
     try {
       const response = await fetch('signup.php', { method: 'POST', body: formData });
+      const result = await response.json(); 
+      console.log("Login response:", result);
 
-      // Check if the response is JSON
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const result = await response.json();
-        console.log("Login response:", result); // رسالة تصحيح
-
-        if (result.status === "success") {
-          Swal.fire({
-            icon: 'success',
-            title: 'Login Successful',
-            text: 'Redirecting...',
-            timer: 2000,
-            showConfirmButton: true
-          }).then(() => {
-            window.location.href = "../DetailsUSER/detatilsuser.html";
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Login Failed',
-            text: result.message
-          });
-        }
+      formlogin.reset();
+      if (result.status === "success") {
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'Redirecting...',
+          timer: 2000,
+          showConfirmButton: true
+        }).then(() => {
+          if (result.isAdmin) {
+            window.location.href = "http://localhost/project/Admin/admin.html";
+          } else {
+            window.location.href = "http://localhost/project/DetailsUSER/detatilsuser.html";
+          }
+        });
       } else {
-        throw new Error("Invalid response format");
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: result.message
+        });
       }
     } catch (error) {
       console.error("Error during login:", error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'An unexpected error occurred. Please try again later.'
-      });
     }
   }
 });

@@ -1,9 +1,10 @@
 <?php
 require_once '../users.php';
 
-session_start();
+session_start(); // تأكد من بدء الجلسة
 
 if (!isset($_SESSION['user_id'])) {
+    error_log("Session user_id not set."); // رسالة تصحيح
     echo json_encode(['error' => 'User not logged in. Please log in to access this page.']);
     exit;
 }
