@@ -2,14 +2,14 @@
 abstract class Person {
     protected $db;
     protected $name;
-    protected $password;
+    protected $Password;
 
     public function __construct() {
         $this->db = DBConnection::getInstance()->getConnection();
     }
 
-    abstract public function login($name, $password);
-    abstract public function signup($name, $address, $password);
+    abstract public function login($name, $Password);
+    abstract public function signup($name, $Address, $Password);
     abstract public function logout();
 }
 
@@ -40,16 +40,31 @@ class DBConnection {
 }
 
 class User extends Person {
-    public function login($name, $password) {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_name = :name AND password = :password");
-        $stmt->execute([':name' => $name, ':password' => $password]);
-        return $stmt->fetch() ?: null;
+    public function login($User_name, $Password) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE User_name = :User_name AND Password = :Password");
+        $stmt->execute([':User_name' => $User_name, ':Password' => $Password]);
+        $user = $stmt->fetch();
+
+        if ($user) {
+            session_start();
+            $_SESSION['USER'] = $user; // تخزين بيانات المستخدم في الجلسة
+            return $user;
+        }
+        return null;
     }
 
-    public function signup($name, $address, $password) {
-        $stmt = $this->db->prepare("INSERT INTO users (user_name, address, password, balance, admin_id)
-                                    VALUES (:name, :address, :password, 0.00, 1)");
-        $stmt->execute([':name' => $name, ':address' => $address, ':password' => $password]);
+    public function getUserDetails() {
+        session_start();
+        if (isset($_SESSION['USER'])) {
+            return $_SESSION['USER']; // إرجاع بيانات المستخدم من الجلسة
+        }
+        return "NO USER IS LOGGED IN.";
+    }
+
+    public function signup($User_name, $Address, $Password) {
+        $stmt = $this->db->prepare("INSERT INTO users (User_name, Address, Password, Balance, Admin_id)
+                                    VALUES (:User_name, :Address, :Password, 0.00, 1)");
+        $stmt->execute([':User_name' => $User_name, ':Address' => $Address, ':Password' => $Password]);
     }
 
     public function logout() {
@@ -57,33 +72,33 @@ class User extends Person {
         session_destroy();
     }
 
-    public function updateUser($user_id, $new_address, $new_password) {
-        $stmt = $this->db->prepare("UPDATE users SET address = :address, password = :password WHERE user_id = :user_id");
-        $stmt->execute([':address' => $new_address, ':password' => $new_password, ':user_id' => $user_id]);
+    public function updateUser($User_id, $new_Address, $new_Password) {
+        $stmt = $this->db->prepare("UPDATE users SET Address = :Address, Password = :Password WHERE User_id = :User_id");
+        $stmt->execute([':Address' => $new_Address, ':Password' => $new_Password, ':User_id' => $User_id]);
     }
 
-    public function deleteUser($user_id) {
-        $stmt = $this->db->prepare("DELETE FROM users WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $user_id]);
+    public function deleteUser($User_id) {
+        $stmt = $this->db->prepare("DELETE FROM users WHERE User_id = :User_id");
+        $stmt->execute([':User_id' => $User_id]);
     }
 
-    public function checkBalance($user_id) {
-        $stmt = $this->db->prepare("SELECT balance FROM users WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $user_id]);
+    public function checkBalance($User_id) {
+        $stmt = $this->db->prepare("SELECT Balance FROM users WHERE User_id = :User_id");
+        $stmt->execute([':User_id' => $User_id]);
         return $stmt->fetch();
     }
 }
 
 class Admin extends Person {
-    public function login($name, $password) {
-        $stmt = $this->db->prepare("SELECT * FROM admin WHERE admin_name = :name AND password = :password");
-        $stmt->execute([':name' => $name, ':password' => $password]);
+    public function login($Admin_name, $Password) {
+        $stmt = $this->db->prepare("SELECT * FROM admin WHERE Admin_name = :Admin_name AND Password = :Password");
+        $stmt->execute([':Admin_name' => $Admin_name, ':Password' => $Password]);
         return $stmt->fetch() ?: null;
     }
 
-    public function signup($name, $address, $password) {
-        $stmt = $this->db->prepare("INSERT INTO admin (admin_name, address, password) VALUES (:name, :address, :password)");
-        $stmt->execute([':name' => $name, ':address' => $address, ':password' => $password]);
+    public function signup($Admin_name, $Address, $Password) {
+        $stmt = $this->db->prepare("INSERT INTO admin (Admin_name, Address, Password) VALUES (:Admin_name, :Address, :Password)");
+        $stmt->execute([':Admin_name' => $Admin_name, ':Address' => $Address, ':Password' => $Password]);
     }
 
     public function logout() {
@@ -91,13 +106,13 @@ class Admin extends Person {
         session_destroy();
     }
 
-    public function updateUserBalanceByAdmin($admin_id, $user_id, $new_balance) {
-        $adminCheck = $this->db->prepare("SELECT * FROM admin WHERE admin_id = :admin_id");
-        $adminCheck->execute([':admin_id' => $admin_id]);
+    public function updateUserBalanceByAdmin($Admin_id, $User_id, $new_Balance) {
+        $adminCheck = $this->db->prepare("SELECT * FROM admin WHERE Admin_id = :Admin_id");
+        $adminCheck->execute([':Admin_id' => $Admin_id]);
 
         if ($adminCheck->fetch()) {
-            $stmt = $this->db->prepare("UPDATE users SET balance = :balance WHERE user_id = :user_id");
-            $stmt->execute([':balance' => $new_balance, ':user_id' => $user_id]);
+            $stmt = $this->db->prepare("UPDATE users SET Balance = :Balance WHERE User_id = :User_id");
+            $stmt->execute([':Balance' => $new_Balance, ':User_id' => $User_id]);
             echo "Balance updated.";
         } else {
             echo "Admin not found.";
@@ -124,7 +139,7 @@ class Ticket {
         $this->db = DBConnection::getInstance()->getConnection();
     }
 
-    public function bookTicket($user_id, $source, $destination, $class, $ticket_type, $purchase_time) {
+    public function bookTicket($User_id, $source, $destination, $class, $ticket_type, $purchase_time) {
         $price = match ($class) {
             'Economy' => 100.00,
             'VIP' => 250.00,
@@ -132,8 +147,8 @@ class Ticket {
         };
         if ($ticket_type === 'Round-trip') $price *= 2;
 
-        $balance = (new User())->checkBalance($user_id);
-        if ($balance && $balance->balance >= $price) {
+        $Balance = (new User())->checkBalance($User_id);
+        if ($Balance && $Balance->Balance >= $price) {
             $trainStmt = $this->db->query("SELECT train_id FROM trains LIMIT 1");
             $train = $trainStmt->fetch();
 
@@ -141,10 +156,10 @@ class Ticket {
             $tripStmt->execute([':train_id' => $train->train_id, ':source' => $source, ':destination' => $destination]);
             $trip_id = $this->db->lastInsertId();
 
-            $ticketStmt = $this->db->prepare("INSERT INTO ticket (user_id, trip_id, ticket_type, class, price, purchase_time)
-                                              VALUES (:user_id, :trip_id, :ticket_type, :class, :price, :purchase_time)");
+            $ticketStmt = $this->db->prepare("INSERT INTO ticket (User_id, trip_id, ticket_type, class, price, purchase_time)
+                                              VALUES (:User_id, :trip_id, :ticket_type, :class, :price, :purchase_time)");
             $ticketStmt->execute([
-                ':user_id' => $user_id,
+                ':User_id' => $User_id,
                 ':trip_id' => $trip_id,
                 ':ticket_type' => $ticket_type,
                 ':class' => $class,
@@ -152,19 +167,19 @@ class Ticket {
                 ':purchase_time' => $purchase_time
             ]);
 
-            $this->db->prepare("UPDATE users SET balance = balance - :price WHERE user_id = :user_id")
-                     ->execute([':price' => $price, ':user_id' => $user_id]);
+            $this->db->prepare("UPDATE users SET Balance = Balance - :price WHERE User_id = :User_id")
+                     ->execute([':price' => $price, ':User_id' => $User_id]);
 
             return "Ticket booked!";
         } else {
-            return "Insufficient balance.";
+            return "Insufficient Balance.";
         }
     }
 
     public function printTicket($ticket_id) {
-        $sql = "SELECT t.*, u.user_name, tr.source, tr.destination 
+        $sql = "SELECT t.*, u.User_name, tr.source, tr.destination 
                 FROM ticket t 
-                JOIN users u ON t.user_id = u.user_id
+                JOIN users u ON t.User_id = u.User_id
                 JOIN trips tr ON t.trip_id = tr.trip_id
                 WHERE t.ticket_id = :ticket_id";
         $stmt = $this->db->prepare($sql);
@@ -172,7 +187,7 @@ class Ticket {
         $ticket = $stmt->fetch();
 
         if ($ticket) {
-            echo "Ticket for {$ticket->user_name}, From {$ticket->source} to {$ticket->destination}, Class: {$ticket->class}, Price: {$ticket->price}";
+            echo "Ticket for {$ticket->User_name}, From {$ticket->source} to {$ticket->destination}, Class: {$ticket->class}, Price: {$ticket->price}";
         } else {
             echo "Ticket not found.";
         }

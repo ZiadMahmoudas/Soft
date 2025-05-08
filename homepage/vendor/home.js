@@ -59,7 +59,12 @@ new Swiper('.MYswiper', {
       },
 
   });
-
+  const logout = document.querySelector("#logout")
+  logout.addEventListener("click", function () {
+    localStorage.removeItem("lang");
+    localStorage.removeItem("theme");
+    window.location.href = 'http://localhost/Soft/auth/signup.html';
+  });
 /* Change Language */
 import { translate } from "../../componentJS/translate.js";
 

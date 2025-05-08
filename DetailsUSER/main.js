@@ -1,77 +1,89 @@
 let logout = document.getElementById("logout");
 
 logout.addEventListener("click", function () {
-  localStorage.removeItem("userData");
-  window.location.href = 'http://localhost/project/auth/signup.html';
+  localStorage.removeItem("lang");
+  localStorage.removeItem("theme");
+  window.location.href = 'http://localhost/Soft/auth/signup.html';
 });
 
 // Handle login
-async function handleLogin() {
-  const name = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+const User_name = document.querySelector("#User_name");
+const Balance = document.querySelector("#Balance");
 
+
+// Fetch User_id from the server if not found in the DOM
+async function getUserIdFromServer() {
   try {
-    const response = await fetch("signup.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "login", name, password }),
-    });
-
+    const response = await fetch("getUserId.php", { method: "GET" });
     const result = await response.json();
-
     if (result.status === "success") {
-      // تخزين بيانات المستخدم في localStorage
-      localStorage.setItem("userData", JSON.stringify(result.data));
-      alert("Login successful!");
-      window.location.href = "detailsuser.html"; // الانتقال إلى صفحة التفاصيل
-    } else {
-      alert("Login failed: " + result.message);
-    }
+      return result.User_id;
+    } 
   } catch (error) {
-    console.error("Error during login:", error);
+    console.error("Error fetching User ID from server:", error);
+    return null;
   }
 }
 
+
 // Fetch and display user profile
-function fetchUserProfile() {
+async function fetchUserProfile() {
+  const User_id = await getUserIdFromServer();
+  if (!User_id) {
+    alert("User ID is missing. Please check the page setup.");
+    return;
+  }
 
+  try {
+    const response = await fetch("getUserProfile.php", {
+      method: "POST",
+      body: JSON.stringify({ User_id }),
+    });
+    const result = await response.json();
 
-  // تحديث اسم المستخدم والرصيد في الصفحة
-  document.querySelector(".coll h3").innerText = `Hello User: ${userData.user_name || "Unknown"}`;
-  document.querySelector(".coll p").innerText = `Balance: $${userData.balance || 0}`;
+    if (result.status === "success") {
+      const user = result.data;
+      document.querySelector(".coll h3").innerText = `HELLO USER: ${user.name}`;
+      document.querySelector(".coll p").innerText = `BALANCE: $${user.balance}`;
+    } else {
+      alert("ERROR FETCHING PROFILE: " + result.message);
+    }
+  } catch (error) {
+    console.error("ERROR FETCHING USER PROFILE:", error);
+  } 
 }
 
 // Save updated profile
 async function saveUserProfile() {
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  if (!userData || !userData.user_id) {
-    alert("User not logged in!");
+  const User_id = await getUserIdFromServer();
+  if (!User_id) {
+    alert("User ID is missing. Please check the page setup.");
     return;
   }
 
   const updatedProfile = {
-    user_id: userData.user_id, // تمرير user_id
-    address: document.getElementById("Address").value.trim(),
-    password: document.getElementById("Password").value.trim(),
+    User_id,
+    Address: document.getElementById("Address").value.trim(),
+    name: document.getElementById("name").value.trim(),
+    Password: document.getElementById("Password").value.trim(),
   };
 
   try {
     const response = await fetch("updateUserProfile.php", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedProfile),
     });
     const result = await response.json();
 
     if (result.status === "success") {
-      alert("Profile updated successfully!");
-      fetchUserProfile(); // Refresh profile data
+      alert("PROFILE UPDATED SUCCESSFULLY!");
+      fetchUserProfile(); 
     } else {
-      alert("Error updating profile: " + result.message);
+      alert("ERROR UPDATING PROFILE: " + result.message);
     }
   } catch (error) {
-    console.error("Error saving user profile:", error);
-  }
+    console.error("ERROR SAVING USER PROFILE:", error);
+  } 
 }
 
 // Attach event listener to the save button

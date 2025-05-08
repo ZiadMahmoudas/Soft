@@ -3,17 +3,17 @@ require_once '../users.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['user_id'])) {
+if (!isset($data['User_id'])) {
     echo json_encode(['status' => 'error', 'message' => 'User ID not provided.']);
     exit;
 }
 
-$user_id = $data['user_id'];
-$address = $data['address'] ?? null;
-$password = $data['password'] ?? null;
+$User_id = $data['User_id'];
+$Address = $data['Address'] ?? null;
+$Password = $data['Password'] ?? null;
 
-if (!$address || !$password) {
-    echo json_encode(['status' => 'error', 'message' => 'Address and password are required.']);
+if (!$Address || !$Password) {
+    echo json_encode(['status' => 'error', 'message' => 'Address and Password are required.']);
     exit;
 }
 
@@ -24,13 +24,13 @@ class UserProfileUpdater {
         $this->db = DBConnection::getInstance()->getConnection();
     }
 
-    public function updateProfile($user_id, $address, $password) {
-        $sql = "UPDATE users SET address = :address, password = :password WHERE user_id = :user_id";
+    public function updateProfile($User_id, $Address, $Password) {
+        $sql = "UPDATE users SET Address = :Address, Password = :Password WHERE User_id = :User_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
-            ':address' => $address,
-            ':password' => $password,
-            ':user_id' => $user_id,
+            ':Address' => $Address,
+            ':Password' => $Password,
+            ':User_id' => $User_id,
         ]);
         return $stmt->rowCount() > 0;
     }
@@ -38,7 +38,7 @@ class UserProfileUpdater {
 
 try {
     $updater = new UserProfileUpdater();
-    $updated = $updater->updateProfile($user_id, $address, $password);
+    $updated = $updater->updateProfile($User_id, $Address, $Password);
 
     if ($updated) {
         echo json_encode(['status' => 'success', 'message' => 'Profile updated successfully.']);

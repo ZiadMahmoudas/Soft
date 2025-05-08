@@ -1,12 +1,12 @@
 const regAddress = /^[a-zA-Z\s,]{3,}$/i;
 const regPassword = /^\w{4,}$/i;
 const regName = /^[a-zA-Z ]{2,}$/i;
-
+const regid = /^[0-9]{4,}/i;
 let btnSignUp = document.getElementById("signupForm");
 let namesignup = document.getElementById("name");
 let passSignup = document.getElementById("pass1");
 let addressSignup = document.getElementById("addressSignup");
-
+let id = document.getElementById("id")
 let btnLoginIN = document.getElementById("LoginForm");
 let namelogin = document.getElementById("name1");
 let passLogin = document.getElementById("pass");
@@ -48,6 +48,7 @@ errorpass.style.display = "none";
 errorBox.style.display = "none";
 errorBoxs.style.display = "none";
 
+
 // Validation for signup fields
 namesignup.addEventListener("input", () => {
   if (regName.test(namesignup.value.trim())) {
@@ -75,6 +76,7 @@ passSignup.addEventListener("input", () => {
     errorpass.textContent = "Password must be at least 4 characters.";
   }
 });
+
 
 // Validation for login fields
 namelogin.addEventListener("input", () => {
@@ -158,7 +160,7 @@ btnSignUp.addEventListener("click", async function (e) {
 });
 
 btnLoginIN.addEventListener("click", async function (e) {
-  e.preventDefault();
+
 
   const fields = {
     name: namelogin.value.trim(),
@@ -198,9 +200,9 @@ btnLoginIN.addEventListener("click", async function (e) {
           showConfirmButton: true
         }).then(() => {
           if (result.isAdmin) {
-            window.location.href = "http://localhost/project/Admin/admin.html";
+            window.location.href = "http://localhost/Soft/Admin/admin.html";
           } else {
-            window.location.href = "http://localhost/project/DetailsUSER/detatilsuser.html";
+            window.location.href = "http://localhost/Soft/DetailsUSER/detatilsuser.html";
           }
         });
       } else {

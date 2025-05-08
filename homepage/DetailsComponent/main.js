@@ -9,11 +9,11 @@ const image = params.get("image");
 document.getElementById("title").innerText = title;
 const imagePath = "../../componentImages/img/" + image;
 document.getElementById("image").src = imagePath;
-
+const logout = document.querySelector("#logout")
 logout.addEventListener("click", function () {
   localStorage.removeItem("lang");
   localStorage.removeItem("theme");
-  window.location.href = 'http://localhost/project/auth/signup.html';
+  window.location.href = 'http://localhost/Soft/auth/signup.html';
 });
 
 // Fetch dynamic price

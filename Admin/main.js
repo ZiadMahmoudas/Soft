@@ -1,4 +1,12 @@
 // Fetch and display users in the table
+
+
+const logout = document.querySelector("#logout")
+logout.addEventListener("click", function () {
+  localStorage.removeItem("lang");
+  localStorage.removeItem("theme");
+  window.location.href = 'http://localhost/Soft/auth/signup.html';
+});
 async function fetchUsers() {
   try {
     const response = await fetch("managePrices.php");
