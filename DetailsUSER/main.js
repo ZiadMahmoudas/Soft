@@ -1,35 +1,56 @@
 let logout = document.getElementById("logout");
 
 logout.addEventListener("click", function () {
-  // Clear the token from localStorage
-  localStorage.removeItem("authToken");
-  localStorage.removeItem("lang");
-  localStorage.removeItem("theme");
+  localStorage.removeItem("userData");
   window.location.href = 'http://localhost/project/auth/signup.html';
 });
 
-// Fetch and display user profile
-async function fetchUserProfile() {
+// Handle login
+async function handleLogin() {
+  const name = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
   try {
-    const response = await fetch("getUserProfile.php", { method: "GET" });
+    const response = await fetch("signup.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "login", name, password }),
+    });
+
     const result = await response.json();
 
     if (result.status === "success") {
-      // Update user profile fields dynamically
-      document.querySelector(".coll h3").innerText = `Hello User: ${result.data.name}`;
-      document.querySelector(".coll p").innerText = `Balance: $${result.data.balance}`;
+      // تخزين بيانات المستخدم في localStorage
+      localStorage.setItem("userData", JSON.stringify(result.data));
+      alert("Login successful!");
+      window.location.href = "detailsuser.html"; // الانتقال إلى صفحة التفاصيل
     } else {
-      console.error(result.message);
+      alert("Login failed: " + result.message);
     }
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error("Error during login:", error);
   }
+}
+
+// Fetch and display user profile
+function fetchUserProfile() {
+
+
+  // تحديث اسم المستخدم والرصيد في الصفحة
+  document.querySelector(".coll h3").innerText = `Hello User: ${userData.user_name || "Unknown"}`;
+  document.querySelector(".coll p").innerText = `Balance: $${userData.balance || 0}`;
 }
 
 // Save updated profile
 async function saveUserProfile() {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  if (!userData || !userData.user_id) {
+    alert("User not logged in!");
+    return;
+  }
+
   const updatedProfile = {
-    first_name: document.getElementById("FirstName").value.trim(),
+    user_id: userData.user_id, // تمرير user_id
     address: document.getElementById("Address").value.trim(),
     password: document.getElementById("Password").value.trim(),
   };
@@ -37,6 +58,7 @@ async function saveUserProfile() {
   try {
     const response = await fetch("updateUserProfile.php", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedProfile),
     });
     const result = await response.json();

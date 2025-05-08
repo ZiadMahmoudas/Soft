@@ -23,9 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $user_id = $_POST['user_id'];
             $new_balance = $_POST['new_balance'];
             $adminManager->updateBalance($admin_id, $user_id, $new_balance);
+            echo json_encode(['status' => 'success', 'message' => 'Balance updated successfully']);
         }
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        echo json_encode(['status' => 'error', 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
 ?>

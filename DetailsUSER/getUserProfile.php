@@ -1,13 +1,14 @@
 <?php
 require_once '../users.php';
 
-session_start(); // تأكد من بدء الجلسة
+$data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($_SESSION['user_id'])) {
-    error_log("Session user_id not set."); // رسالة تصحيح
-    echo json_encode(['status' => 'error', 'message' => 'User not logged in.']);
+if (!isset($data['user_id'])) {
+    echo json_encode(['status' => 'error', 'message' => 'User ID not provided.']);
     exit;
 }
+
+$user_id = $data['user_id'];
 
 class UserProfile {
     private $db;
@@ -17,22 +18,18 @@ class UserProfile {
     }
 
     public function getProfile($user_id) {
-        $sql = "SELECT user_name AS name, address, balance 
-                FROM users WHERE user_id = :user_id";
+        $sql = "SELECT user_name AS name, balance FROM users WHERE user_id = :user_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':user_id' => $user_id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data ?: ['name' => '', 'balance' => 0];
     }
 }
 
 try {
     $profile = new UserProfile();
-    $userProfile = $profile->getProfile($_SESSION['user_id']);
-    if ($userProfile) {
-        echo json_encode(['status' => 'success', 'data' => $userProfile]);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'User profile not found.']);
-    }
+    $userProfile = $profile->getProfile($user_id);
+    echo json_encode(['status' => 'success', 'data' => $userProfile]);
 } catch (Exception $e) {
     echo json_encode(['status' => 'error', 'message' => 'An error occurred: ' . $e->getMessage()]);
 }

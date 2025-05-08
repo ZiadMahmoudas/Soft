@@ -97,7 +97,7 @@ passLogin.addEventListener("input", () => {
 
 // Signup button click handler
 btnSignUp.addEventListener("click", async function (e) {
-  e.preventDefault();
+
 
   const fields = {
     name: namesignup.value.trim(),

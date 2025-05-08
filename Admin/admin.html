@@ -18,68 +18,41 @@
 <body>
     <nav class="navbar">
         <div class="container-fluid">
-          <a class="navbar-brand"><img class="img-fluid" src="../componentImages/img/brand-logo.png" alt=""></a>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          </form>
+            <a class="navbar-brand"><img class="img-fluid" src="../componentImages/img/brand-logo.png" alt=""></a>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" id="searchUserInput" placeholder="Search by User ID or Name" aria-label="Search">
+            </form>
         </div>
-      </nav>
+    </nav>
+
       <section class="sec">
-        <h1 class="py-4">DashBoard</h1>
-        <div class="total">
-        <div class="container-fluid">
-            <div class="container">
-                <div class="d-flex justify-content-between">
-            <h2></h2>
-            <div class="pb-4">
-            <button class="btn btn-primary mt-3 d-flex gap-2"><i class="bi bi-plus-lg"></i><span>Add New Stations</span></button>
+        <h1 class="py-4">Manage Stations</h1>
+        <div class="container">
+            <form id="addStationForm" class="mb-4">
+                <div class="mb-3">
+                    <label for="stationName" class="form-label">Station Name</label>
+                    <input type="text" id="stationName" class="form-control" placeholder="Enter station name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" id="city" class="form-control" placeholder="Enter city" required>
+                </div>
+                <button type="button" class="btn btn-primary">Add Station</button>
+            </form>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Station ID</th>
+                        <th>Station Name</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+                <tbody id="stationTableBody">
+                    <!-- Rows will be populated dynamically -->
+                </tbody>
+            </table>
         </div>
-        </div>
-           </div>
-            <div class="row">
-               <div class="col-3">
-                <h3>Station_id</h3>
-                <div>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                </div>
-               </div>
-               <div class="col-3">
-                <h3>Station_name</h3>
-                <div>
-                    <p>Ahmed Saeed</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                </div>
-               </div>
-               <div class="col-3">
-                <h3>City</h3>
-                <div>
-                    <p>Ahmed Saeed@Gmail.com</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                    <p>INV-0018147</p>
-                </div>
-               </div>
-               <div class="col-3">
-               <div class="col-3  justify-content-center">
-                <h3>Options</h3>
-                <div class="d-flex gap-3">
-                    <button class="btn btn-primary my-3"><i class="bi bi-upload"></i></button>
-                    <button class="btn btn-success my-3"><i class="bi bi-pencil-square"></i></button>
-                    <button class="btn btn-danger my-3"><i class="bi bi-trash-fill"></i></button>
-                </div>
-               </div>
-            </div>
-        </div>
-    </div>
-      </section>
+    </section>
       <section class="sec">
         <h1 class="py-4">Manage User Balances</h1>
         <div class="container">

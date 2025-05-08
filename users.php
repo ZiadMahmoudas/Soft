@@ -217,18 +217,12 @@ class Station {
         $sql = "INSERT INTO station (station_name, city) VALUES (:name, :city)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':name' => $name, ':city' => $city]);
-        echo " Station '$name' in '$city' added successfully." . PHP_EOL;
     }
 
     public function getAllStations() {
-        $sql = "SELECT * FROM station";
+        $sql = "SELECT station_id, station_name, city FROM station";
         $stmt = $this->db->query($sql);
-        $stations = $stmt->fetchAll();
-
-        echo " Stations List:" . PHP_EOL;
-        foreach ($stations as $station) {
-            echo "ID: $station->station_id, Name: $station->station_name, City: $station->city" . PHP_EOL;
-        }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // تأكد من إرجاع البيانات كـ Array
     }
 }
 
