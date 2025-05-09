@@ -25,10 +25,10 @@ async function fetchPrice() {
 
   if (source && destination && ticketClass && ticketType) {
     const formData = new FormData();
-    formData.append("source", source);
-    formData.append("destination", destination);
-    formData.append("class", ticketClass);
-    formData.append("ticket_type", ticketType);
+    formData.append("Source", source);
+    formData.append("Destination", destination);
+    formData.append("Class", ticketClass);
+    formData.append("Ticket_type", ticketType);
 
     try {
       const response = await fetch("calculatePrice.php", { method: "POST", body: formData });
@@ -48,54 +48,87 @@ document.getElementById("class").addEventListener("change", fetchPrice);
 document.getElementById("ticket_type").addEventListener("change", fetchPrice);
 
 // Submit ticket booking
-document.getElementById("ticketForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
+document.getElementById("ticketForm").addEventListener("click", async function (e) {
+  // Collect form data
   const source = document.getElementById("source").value;
   const destination = document.getElementById("destination").value;
   const ticketClass = document.getElementById("class").value;
   const ticketType = document.getElementById("ticket_type").value;
   const price = document.getElementById("priceInput").value;
 
+  // Validate form data
+  if (!source || !destination || !ticketClass || !ticketType || !price) {
+    Swal.fire({
+      title: "Error",
+      text: "Please fill in all fields before submitting.",
+      icon: "error",
+    });
+    return;
+  }
+
+  // Prepare data for submission
   const formData = new FormData();
-  formData.append("source", source);
-  formData.append("destination", destination);
-  formData.append("class", ticketClass);
-  formData.append("ticket_type", ticketType);
-  formData.append("price", price);
+  formData.append("Source", source);
+  formData.append("Destination", destination);
+  formData.append("Class", ticketClass);
+  formData.append("Ticket_type", ticketType);
+  formData.append("Price", price);
 
   try {
+    // Send data to the server
     const response = await fetch("bookTicket.php", { method: "POST", body: formData });
     const result = await response.json();
 
+    // Handle server response
     if (result.status === "success") {
       Swal.fire({
-        title: "Ticket Booked Successfully!",
-        html: `
-          <p><strong>Source:</strong> ${result.ticket.source}</p>
-          <p><strong>Destination:</strong> ${result.ticket.destination}</p>
-          <p><strong>Class:</strong> ${result.ticket.class}</p>
-          <p><strong>Ticket Type:</strong> ${result.ticket.ticket_type}</p>
-          <p><strong>Price:</strong> $${result.ticket.price}</p>
-          <p><strong>Purchase Time:</strong> ${result.ticket.purchase_time}</p>
-        `,
+        title: "Success",
+        text: result.message,
         icon: "success",
-        showCancelButton: true,
-        confirmButtonText: "Go to Profile",
-        cancelButtonText: "Download Ticket"
-      }).then((action) => {
-        if (action.isConfirmed) {
-          window.location.href = "http://localhost/project/DetailsUSER/profile.php";
-        }
+        confirmButtonText: "OK",
+      }).then(() => {
+        // Optionally redirect or perform another action
+        console.log("Ticket details:", result.ticket);
       });
     } else {
       Swal.fire({
         title: "Error",
         text: result.message,
-        icon: "error"
+        icon: "error",
       });
     }
   } catch (error) {
     console.error("Error booking ticket:", error);
+    Swal.fire({
+      title: "Error",
+      text: "An unexpected error occurred. Please try again later.",
+      icon: "error",
+    });
   }
+});
+
+// Fetch and display user balance
+async function fetchUserBalance() {
+    try {
+        const response = await fetch("../../DetailsUSER/getUserProfile.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ User_id: 1 }), // استبدل بـ User_id الديناميكي إذا كان متاحًا
+        });
+        const result = await response.json();
+
+        if (result.status === "success") {
+            const balance = result.data.balance;
+            document.getElementById("userBalance").innerText = `Balance: $${balance}`;
+        } else {
+            console.error("Error fetching balance:", result.message);
+        }
+    } catch (error) {
+        console.error("Error fetching balance:", error);
+    }
+}
+
+// Call fetchUserBalance on page load
+document.addEventListener("DOMContentLoaded", () => {
+    fetchUserBalance();
 });

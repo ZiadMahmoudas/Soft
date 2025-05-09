@@ -18,11 +18,12 @@ class DBConnection {
     private $connection;
 
     private function __construct() {
-     
         try {
-            $this->connection = new PDO("mysql:host=localhost;dbname=softwareproject", "root", "");
+            $this->connection = new PDO("mysql:host=localhost;dbname=soft2", "root", "");
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            error_log("Database connection established successfully."); // تسجيل نجاح الاتصال
         } catch (PDOException $e) {
+            error_log("Database connection failed: " . $e->getMessage()); // تسجيل الخطأ
             die("Database connection failed: " . $e->getMessage());
         }
     }
@@ -85,7 +86,19 @@ class User extends Person {
     public function checkBalance($User_id) {
         $stmt = $this->db->prepare("SELECT Balance FROM users WHERE User_id = :User_id");
         $stmt->execute([':User_id' => $User_id]);
-        return $stmt->fetch();
+        $balance = $stmt->fetch(PDO::FETCH_OBJ);
+
+        if ($balance && isset($balance->Balance)) {
+            return $balance; // Return the balance object
+        } else {
+            error_log("Balance not found for User ID: " . $User_id); // Debugging
+            return null; // Return null if no balance found
+        }
+    }
+
+    public function updateUserBalance($User_id, $new_Balance) {
+        $stmt = $this->db->prepare("UPDATE users SET Balance = :Balance WHERE User_id = :User_id");
+        $stmt->execute([':Balance' => $new_Balance, ':User_id' => $User_id]);
     }
 }
 
@@ -120,14 +133,14 @@ class Admin extends Person {
     }
 
     public function displayAllSchedules() {
-        $sql = "SELECT tr.trip_id, tr.source, tr.destination, tr.departure_time, tr.arrival_time, t.name 
+        $sql = "SELECT tr.trip_id, tr.Source, tr.Destination, tr.departure_time, tr.arrival_time, t.name 
                 FROM trips tr
                 JOIN trains t ON tr.train_id = t.train_id";
         $stmt = $this->db->query($sql);
         $results = $stmt->fetchAll();
 
         foreach ($results as $row) {
-            echo "Trip ID: $row->trip_id, From: $row->source, To: $row->destination" . PHP_EOL;
+            echo "Trip ID: $row->trip_id, From: $row->Source, To: $row->Destination" . PHP_EOL;
         }
     }
 }
@@ -139,36 +152,37 @@ class Ticket {
         $this->db = DBConnection::getInstance()->getConnection();
     }
 
-    public function bookTicket($User_id, $source, $destination, $class, $ticket_type, $purchase_time) {
-        $price = match ($class) {
+    public function bookTicket($User_id, $Source, $Destination, $Class, $Ticket_type,) {
+        $Price = match ($Class) {
             'Economy' => 100.00,
             'VIP' => 250.00,
             default => 0
         };
-        if ($ticket_type === 'Round-trip') $price *= 2;
+        if ($Ticket_type === 'Round-trip') $Price *= 2;
 
         $Balance = (new User())->checkBalance($User_id);
-        if ($Balance && $Balance->Balance >= $price) {
+        if ($Balance && $Balance->Balance >= $Price) {
             $trainStmt = $this->db->query("SELECT train_id FROM trains LIMIT 1");
             $train = $trainStmt->fetch();
 
-            $tripStmt = $this->db->prepare("INSERT INTO trips (train_id, source, destination) VALUES (:train_id, :source, :destination)");
-            $tripStmt->execute([':train_id' => $train->train_id, ':source' => $source, ':destination' => $destination]);
+            $tripStmt = $this->db->prepare("INSERT INTO trips (train_id, Source, Destination) VALUES (:train_id, :Source, :Destination)");
+            $tripStmt->execute([':train_id' => $train->train_id, ':Source' => $Source, ':Destination' => $Destination]);
             $trip_id = $this->db->lastInsertId();
 
-            $ticketStmt = $this->db->prepare("INSERT INTO ticket (User_id, trip_id, ticket_type, class, price, purchase_time)
-                                              VALUES (:User_id, :trip_id, :ticket_type, :class, :price, :purchase_time)");
-            $ticketStmt->execute([
+            $ticket = $this->db->prepare("INSERT INTO ticket (User_id, trip_id, Ticket_type, Class, Price)
+                                              VALUES (:User_id, :trip_id, :Ticket_type, :Class, :Price)");
+            $ticket->execute([
                 ':User_id' => $User_id,
                 ':trip_id' => $trip_id,
-                ':ticket_type' => $ticket_type,
-                ':class' => $class,
-                ':price' => $price,
-                ':purchase_time' => $purchase_time
+                ':Ticket_type' => $Ticket_type,
+                ':Class' => $Class,
+                ':Price' => $Price,
+                ':Source'=>$Source,
+                ':Destination'=>$Destination,
             ]);
 
-            $this->db->prepare("UPDATE users SET Balance = Balance - :price WHERE User_id = :User_id")
-                     ->execute([':price' => $price, ':User_id' => $User_id]);
+            $this->db->prepare("UPDATE users SET Balance = Balance - :Price WHERE User_id = :User_id")
+                     ->execute([':Price' => $Price, ':User_id' => $User_id]);
 
             return "Ticket booked!";
         } else {
@@ -177,7 +191,7 @@ class Ticket {
     }
 
     public function printTicket($ticket_id) {
-        $sql = "SELECT t.*, u.User_name, tr.source, tr.destination 
+        $sql = "SELECT t.*, u.User_name, tr.Source, tr.Destination 
                 FROM ticket t 
                 JOIN users u ON t.User_id = u.User_id
                 JOIN trips tr ON t.trip_id = tr.trip_id
@@ -187,7 +201,7 @@ class Ticket {
         $ticket = $stmt->fetch();
 
         if ($ticket) {
-            echo "Ticket for {$ticket->User_name}, From {$ticket->source} to {$ticket->destination}, Class: {$ticket->class}, Price: {$ticket->price}";
+            echo "Ticket for {$ticket->User_name}, From {$ticket->Source} to {$ticket->Destination}, Class: {$ticket->Class}, Price: {$ticket->Price}";
         } else {
             echo "Ticket not found.";
         }
@@ -240,7 +254,7 @@ class Station {
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // تأكد من إرجاع البيانات كـ Array
     }
 }
-
+/* Train => Name  */
 class Train {
     protected $db;
 
@@ -283,6 +297,89 @@ class Train {
         echo " Train ID $train_id updated to Name: '$new_name', Status: '$new_status'" . PHP_EOL;
     }
     
+}
+
+class TrainSchedule {
+    protected $db;
+
+    public function __construct() {
+        $this->db = DBConnection::getInstance()->getConnection();
+    }
+
+    public function addSchedule($Train_name, $Station_name, $Departure_time, $Arrival_time) {
+        $sql = "INSERT INTO train_station_times (Train_name, Station_name, Departure_time, Arrival_time) 
+                VALUES (:Train_name, :Station_name, :Departure_time, :Arrival_time)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':Train_name' => $Train_name,
+            ':Station_name' => $Station_name,
+            ':Departure_time' => $Departure_time,
+            ':Arrival_time' => $Arrival_time
+        ]);
+        echo "Schedule added for Train: '$Train_name' at Station: '$Station_name'." . PHP_EOL;
+    }
+
+    public function getScheduleByTrain($Train_name) {
+        $sql = "SELECT * FROM train_station_times WHERE Train_name = :Train_name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':Train_name' => $Train_name]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getScheduleByStation($Station_name) {
+        $sql = "SELECT * FROM train_station_times WHERE Station_name = :Station_name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':Station_name' => $Station_name]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateSchedule($id, $Train_name, $Station_name, $Departure_time, $Arrival_time) {
+        $sql = "UPDATE train_station_times 
+                SET Train_name = :Train_name, Station_name = :Station_name, 
+                    Departure_time = :Departure_time, Arrival_time = :Arrival_time 
+                WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':Train_name' => $Train_name,
+            ':Station_name' => $Station_name,
+            ':Departure_time' => $Departure_time,
+            ':Arrival_time' => $Arrival_time,
+            ':id' => $id
+        ]);
+        echo "Schedule ID $id updated successfully." . PHP_EOL;
+    }
+
+    public function deleteSchedule($id) {
+        $sql = "DELETE FROM train_station_times WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        echo "Schedule ID $id deleted successfully." . PHP_EOL;
+    }
+
+    public function getAllSchedules() {
+        $sql = "SELECT * FROM train_station_times";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getScheduleWithFilters($filters) {
+        $sql = "SELECT * FROM train_station_times WHERE 1=1";
+        $params = [];
+
+        if (!empty($filters['Train_name'])) {
+            $sql .= " AND Train_name = :Train_name";
+            $params[':Train_name'] = $filters['Train_name'];
+        }
+
+        if (!empty($filters['Station_name'])) {
+            $sql .= " AND Station_name = :Station_name";
+            $params[':Station_name'] = $filters['Station_name'];
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

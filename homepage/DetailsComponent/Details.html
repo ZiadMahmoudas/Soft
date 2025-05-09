@@ -79,7 +79,7 @@
     </div>
     <h1 class="pb-3">Booking For Receive Ticket</h1>
         <div class="col-12 col-md-12 ">
-            <form id="ticketForm" class="flex-column d-flex justify-content-center">
+            <form  class="flex-column d-flex justify-content-center">
                 <div class="mb-3">
                   <select id="source" class="form-select" aria-label="Source">
                     <option selected>Source Way</option>
@@ -156,8 +156,11 @@
                     <p id="price">Price: $0</p>
                     <input type="hidden" id="priceInput" name="price" value="0">
                 </div>
+                <div class="mb-3">
+                    <p id="userBalance">Balance: $0</p> <!-- عنصر لعرض الرصيد -->
+                </div>
                 <div class="mb-3 form-check">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button id="ticketForm" type="button" class="btn btn-primary">Submit</button>
                 </div>
               </form>
         </div>
@@ -216,4 +219,5 @@
  <!-- <script src="../../componentJS/Date.js"></script>
  <script src="../../componentJS/bootstrap.bundle.js"></script> -->
 <script type="module" src="main.js"></script>
+
 </html>

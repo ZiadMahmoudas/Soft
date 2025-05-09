@@ -76,10 +76,23 @@ async function saveUserProfile() {
     const result = await response.json();
 
     if (result.status === "success") {
-      alert("PROFILE UPDATED SUCCESSFULLY!");
+      Swal.fire({
+        icon: 'success',
+        title: 'Successful',
+        text: 'Good Response',
+        timer: 2000,
+        showConfirmButton: true
+      })
       fetchUserProfile(); 
+      window.location.href = 'http://localhost/Soft/auth/signup.html';
     } else {
-      alert("ERROR UPDATING PROFILE: " + result.message);
+      Swal.fire({
+        icon: 'error',
+        title: `enter Data:`,
+        text: `${result.message}`,
+        timer: 2000,
+        showConfirmButton: true
+      })
     }
   } catch (error) {
     console.error("ERROR SAVING USER PROFILE:", error);

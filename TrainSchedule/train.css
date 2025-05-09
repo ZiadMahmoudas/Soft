@@ -243,7 +243,7 @@ footer{
     }
     .table thead th{
 
-        font-size: 1.8125rem;
+        font-size: 1.3125rem;
     }
     .table tbody td{
         font-size: 1.4375rem;
@@ -256,4 +256,10 @@ footer{
     left: -70% !important;
    }
 }
-@media(min-width:992px){}
+@media(min-width:992px){
+    .table thead th{
+
+        font-size: 1.8125rem;
+    }
+
+}

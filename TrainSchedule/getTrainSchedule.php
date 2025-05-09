@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../users.php';
 
 class TrainSchedule {
@@ -21,8 +25,11 @@ header('Content-Type: application/json');
 
 try {
     $schedule = new TrainSchedule();
-    echo json_encode($schedule->getSchedule());
+    $data = $schedule->getSchedule();
+    error_log("Train schedule fetched: " . json_encode($data)); // تسجيل البيانات
+    echo json_encode($data);
 } catch (Exception $e) {
+    error_log("Error fetching train schedule: " . $e->getMessage()); // تسجيل الخطأ
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>

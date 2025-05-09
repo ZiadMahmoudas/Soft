@@ -2,30 +2,54 @@
 require_once '../../users.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $source = $_POST['source'];
-    $destination = $_POST['destination'];
-    $class = $_POST['class'];
-    $ticket_type = $_POST['ticket_type'];
+    $Source = $_POST['Source'] ?? null;
+    $Destination = $_POST['Destination'] ?? null;
+    $Class = $_POST['Class'] ?? null;
+    $Ticket_type = $_POST['Ticket_type'] ?? null;
+    $Price = $_POST['Price'] ?? null;
+
+    if (!$Source || !$Destination || !$Class || !$Ticket_type || !$Price) {
+        echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+        exit;
+    }
+
     $purchase_time = date('Y-m-d H:i:s');
+    $User_id = 1; // Replace with dynamic user_id (e.g., from session)
 
-    $ticket = new Ticket();
-    $result = $ticket->bookTicket(1, $source, $destination, $class, $ticket_type, $purchase_time); // Replace 1 with dynamic user_id
+    $user = new User();
+    $Balance = $user->checkBalance($User_id);
 
-    if ($result === "Ticket booked!") {
-        echo json_encode([
-            'status' => 'success',
-            'message' => $result,
-            'ticket' => [
-                'source' => $source,
-                'destination' => $destination,
-                'class' => $class,
-                'ticket_type' => $ticket_type,
-                'purchase_time' => $purchase_time,
-                'price' => $_POST['price'] // Pass the price from the frontend
-            ]
-        ]);
+    if ($Balance && isset($Balance->Balance)) {
+        // Debugging: Log the balance to ensure it's being fetched correctly
+        error_log("User Balance: " . $Balance->Balance);
+
+        if ($Balance->Balance >= $Price) {
+            $ticket = new Ticket();
+            $result = $ticket->bookTicket($User_id, $Source, $Destination, $Class, $Ticket_type, $purchase_time);
+
+            if ($result === "Ticket booked!") {
+                // Deduct the Price from the user's balance
+                $user->updateUserBalance($User_id, $Balance->Balance - $Price);
+
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => $result,
+                    'ticket' => [
+                        'Source' => $Source,
+                        'Destination' => $Destination,
+                        'Class' => $Class,
+                        'Ticket_type' => $Ticket_type,
+                        'Price' => $Price,
+                    ],
+                ]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => $result]);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Insufficient balance.']);
+        }
     } else {
-        echo json_encode(['status' => 'error', 'message' => $result]);
+        echo json_encode(['status' => 'error', 'message' => 'Unable to fetch balance.']);
     }
 }
 ?>

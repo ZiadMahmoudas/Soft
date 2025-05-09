@@ -1,104 +1,51 @@
-.navbar-brand{
-    margin-right: 0;
+.side{
+height: 100vh;
 }
-.navbar-brand img{
-    width: 200px;
-    height: 70px;
-}
-.navbar{
-    background-color:  rgba(255, 255, 255, 1);
-    box-shadow: 3px 4px 2px 3px rgb(206, 200, 200);
-
-}
-.sec h1{
-    text-align: center;
-    font-size: 3rem;
-     font-family: Bold;
-     padding-top: 15px;
-     position: relative;
-}
-.sec h1::after{
-    content: "";
-    display: block;
-    width: 100px;
-    height: 5px;
-    background-color: #0be7e7;
-    margin: 10px auto;
-}
-.total{
-    background-color: #fff;
-    filter: drop-shadow(6px 6px 54px rgba(0, 0, 0, 0.05));
-}
-.container h2{
-    color: rgba(32, 34, 36, 1);
-    font-size: 2rem;
-    font-family: SemiBold;
-    padding-block: 15px;
+.sidebar {
+    position: sticky;
+    transition: transform 0.3s ease-in-out;
 }
 
-.col-2{
-    width: 13.666667%;
+.sidebar.hidden {
+    transform: translateX(-100%);
 }
-.row .col-2:nth-child(7){
-    width: 14.666667%;
-}
-.row{
-    margin-left: 0;
-    margin-right: 0;
-}
-footer{
-    background-color: #1a1c28;
-    padding-block: 2.5rem;
- }
- .par{
+
+.nav {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    color: #fff;
- }
- .address{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    color: #fff;
- }
- .address p{
-    font-size: 1rem;
-    font-family: Regular;
- }
- .coll h2{
-    color: #fff;
-    padding-bottom: 10px;
+    gap: 35px;
+    padding-top: 10px;
+}
+
+#main-content {
+    transition: margin-left 0.3s ease-in-out;
+}
+
+#main-content.expanded {
+    margin-left: 250px;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
- }
- .number{
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    color: #fff;
- }
- .number p{
-    font-size: 1.2rem;
-    font-family: Regular;
- }
- .pages{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
- }
- ul.pages{
-    padding-left: 0 !important;
- }
- li{
-    list-style: square;
-    color: #357abe;
-    font-size: 9px;
- }
- li a{
-    font-size: 1.1625rem;
-    color: #fff;
-    transition: all 0.3s ease;
- }
- li a:hover{
-    color: #08c1da;
- }
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
