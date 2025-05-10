@@ -22,3 +22,9 @@ document.addEventListener("keyup", function (e) {
         popItem.style.cssText = "visibility: hidden";
     }
 });
+const logout = document.querySelector("#logout");
+logout.addEventListener("click",()=>{
+    window.location.href = "http://localhost/Soft/auth/signup.html"
+    localStorage.removeItem("lang")
+    localStorage.removeItem("theme")
+})

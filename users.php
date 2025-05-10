@@ -19,7 +19,7 @@ class DBConnection {
 
     private function __construct() {
         try {
-            $this->connection = new PDO("mysql:host=localhost;dbname=soft2", "root", "");
+            $this->connection = new PDO("mysql:host=localhost;dbname=soft4", "root", "");
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
             error_log("Database connection established successfully."); // تسجيل نجاح الاتصال
         } catch (PDOException $e) {
@@ -99,6 +99,12 @@ class User extends Person {
     public function updateUserBalance($User_id, $new_Balance) {
         $stmt = $this->db->prepare("UPDATE users SET Balance = :Balance WHERE User_id = :User_id");
         $stmt->execute([':Balance' => $new_Balance, ':User_id' => $User_id]);
+
+        if ($stmt->rowCount() > 0) {
+            error_log("Balance updated successfully for User ID: $User_id to $new_Balance");
+        } else {
+            error_log("Failed to update balance for User ID: $User_id");
+        }
     }
 }
 
@@ -152,7 +158,7 @@ class Ticket {
         $this->db = DBConnection::getInstance()->getConnection();
     }
 
-    public function bookTicket($User_id, $Source, $Destination, $Class, $Ticket_type,) {
+    public function bookTicket($User_id, $Source, $Destination, $Class, $Ticket_type, $purchase_time) {
         $Price = match ($Class) {
             'Economy' => 100.00,
             'VIP' => 250.00,
@@ -169,16 +175,16 @@ class Ticket {
             $tripStmt->execute([':train_id' => $train->train_id, ':Source' => $Source, ':Destination' => $Destination]);
             $trip_id = $this->db->lastInsertId();
 
-            $ticket = $this->db->prepare("INSERT INTO ticket (User_id, trip_id, Ticket_type, Class, Price)
-                                              VALUES (:User_id, :trip_id, :Ticket_type, :Class, :Price)");
+            $ticket = $this->db->prepare("INSERT INTO ticket (User_id, trip_id, Ticket_type, Class, Price, Source, Destination)
+                                          VALUES (:User_id, :trip_id, :Ticket_type, :Class, :Price, :Source, :Destination)");
             $ticket->execute([
                 ':User_id' => $User_id,
                 ':trip_id' => $trip_id,
                 ':Ticket_type' => $Ticket_type,
                 ':Class' => $Class,
                 ':Price' => $Price,
-                ':Source'=>$Source,
-                ':Destination'=>$Destination,
+                ':Source' => $Source,
+                ':Destination' => $Destination,
             ]);
 
             $this->db->prepare("UPDATE users SET Balance = Balance - :Price WHERE User_id = :User_id")

@@ -31,3 +31,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         tbody.innerHTML = `<tr><td colspan="4" class="text-danger">Error loading train schedules.</td></tr>`;
     }
 });
+const logout = document.querySelector("#logout");
+logout.addEventListener("click",()=>{
+    window.location.href = "http://localhost/Soft/auth/signup.html"
+    localStorage.removeItem("lang")
+    localStorage.removeItem("theme")
+})
