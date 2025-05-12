@@ -348,6 +348,8 @@ document.getElementById("closePopup").addEventListener("click", () => {
     popup.classList.add("hidden");
 });
 
+// Function to show notification bar
+
 // Save Changes
 document.getElementById("saveTrainChanges").addEventListener("click", async () => {
     const scheduleId = document.getElementById("editTrainPopup").dataset.scheduleId;
@@ -388,6 +390,7 @@ document.getElementById("saveTrainChanges").addEventListener("click", async () =
             });
             fetchTrainSchedule(); // Refresh the train schedule table
             document.getElementById("editTrainPopup").classList.add("hidden");
+
         } else {
             Swal.fire({
                 icon: "error",

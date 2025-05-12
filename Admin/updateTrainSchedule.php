@@ -33,6 +33,10 @@ try {
     ]);
 
     if ($stmt->rowCount() > 0) {
+        // Update notification state in a JSON file
+        $notificationData = ['updated' => true, 'message' => 'Train schedule has been updated. Please check the train schedule for updated timings.'];
+        file_put_contents('../TrainSchedule/notification.json', json_encode($notificationData));
+
         echo json_encode(['status' => 'success', 'message' => 'Schedule updated successfully.']);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'No changes were made.']);
