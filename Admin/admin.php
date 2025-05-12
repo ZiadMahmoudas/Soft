@@ -28,9 +28,9 @@ class AdminManager {
         if ($this->isAdmin($admin_id)) {
             $stmt = $this->db->prepare("DELETE FROM users WHERE user_id = :user_id");
             $stmt->execute([':user_id' => $user_id]);
-            error_log("Rows affected: " . $stmt->rowCount()); // Debugging log
+            error_log("Rows affected: " . $stmt->rowCount());
             if ($stmt->rowCount() > 0) {
-                return true; // User deleted successfully
+                return true;
             } else {
                 throw new Exception("User not found or could not be deleted.");
             }
@@ -58,11 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } elseif ($action === 'delete_user') {
             $user_id = $_POST['user_id'] ?? null;
-            error_log("Received user_id: " . $user_id); // Log the user_id for debugging
+            error_log("Received user_id: " . $user_id); 
 
             if ($user_id && is_numeric($user_id)) {
                 try {
-                    $adminManager->deleteUser(1, $user_id); // Assuming admin_id is 1
+                    $adminManager->deleteUser(1, $user_id);
                     echo json_encode(['status' => 'success', 'message' => 'User deleted successfully']);
                 } catch (Exception $e) {
                     error_log("Error deleting user: " . $e->getMessage());

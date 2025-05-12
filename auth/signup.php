@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = $_POST['name'];
         $password = $_POST['password'];
 
-        // Log login attempt
         file_put_contents('php://stderr', "Login attempt: $name\n", FILE_APPEND);
 
         $adminResult = (new Admin())->login($name, $password);
@@ -34,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $address = $_POST['address'];
         $password = $_POST['password'];
 
-        // Log signup attempt
         file_put_contents('php://stderr', "Signup attempt: $name\n", FILE_APPEND);
 
         try {

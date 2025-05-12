@@ -16,46 +16,47 @@ logout.addEventListener("click", function () {
   window.location.href = 'http://localhost/Soft/auth/signup.html';
 });
 
+const source = document.getElementById("source");
+const destination = document.getElementById("destination");
+const ticketClass = document.getElementById("class");
+const ticketType = document.getElementById("ticket_type");
+const price =  document.getElementById("price");
+const  payment= document.getElementById("newPrice");
 // Fetch dynamic price
 async function fetchPrice() {
-  const source = document.getElementById("source").value;
-  const destination = document.getElementById("destination").value;
-  const ticketClass = document.getElementById("class").value;
-  const ticketType = document.getElementById("ticket_type").value;
-
-  if (source && destination && ticketClass && ticketType) {
+    const src = source.value;
+    const dest = destination.value;
+    const cls = ticketClass.value;
+    const type = ticketType.value;
+  if (src && dest && cls && type) {
     const formData = new FormData();
-    formData.append("Source", source);
-    formData.append("Destination", destination);
-    formData.append("Class", ticketClass);
-    formData.append("Ticket_type", ticketType);
+    formData.append("Source", src);
+    formData.append("Destination", dest);
+    formData.append("Class", cls);
+    formData.append("Ticket_type", type);
 
-    try {
       const response = await fetch("calculatePrice.php", { method: "POST", body: formData });
       const result = await response.json();
-      document.getElementById("price").innerText = `Price: $${result.price}`;
-      document.getElementById("priceInput").value = result.price; // Store price for submission
-    } catch (error) {
-      console.error("Error fetching price:", error);
-    }
+      price.innerText = `Price: $${result.price}`;
+      payment.value = result.price;
+    } 
   }
-}
 
-// Add event listeners to update price dynamically
-document.getElementById("source").addEventListener("change", fetchPrice);
-document.getElementById("destination").addEventListener("change", fetchPrice);
-document.getElementById("class").addEventListener("change", fetchPrice);
-document.getElementById("ticket_type").addEventListener("change", fetchPrice);
+
+source.addEventListener("change", fetchPrice);
+destination.addEventListener("change", fetchPrice);
+ticketClass.addEventListener("change", fetchPrice);
+ticketType.addEventListener("change", fetchPrice);
 
 // Submit ticket booking
 document.getElementById("ticketForm").addEventListener("click", async function (e) {
-    const source = document.getElementById("source").value;
-    const destination = document.getElementById("destination").value;
-    const ticketClass = document.getElementById("class").value;
-    const ticketType = document.getElementById("ticket_type").value;
-    const price = document.getElementById("priceInput").value;
-
-    if (!source || !destination || !ticketClass || !ticketType || !price) {
+ 
+    const src = source.value;
+    const dest = destination.value;
+    const cls = ticketClass.value;
+    const type = ticketType.value;
+    const Price = payment.value;
+    if (!src || !dest || !cls || !type || !Price) {
         Swal.fire({
             title: "Error",
             text: "Please fill in all fields before submitting.",
@@ -65,16 +66,16 @@ document.getElementById("ticketForm").addEventListener("click", async function (
     }
 
     const formData = new FormData();
-    formData.append("Source", source);
-    formData.append("Destination", destination);
-    formData.append("Class", ticketClass);
-    formData.append("Ticket_type", ticketType);
-    formData.append("Price", price);
+    formData.append("Source", src);
+    formData.append("Destination", dest);
+    formData.append("Class", cls);
+    formData.append("Ticket_type", type);
+    formData.append("Price", Price);
 
-    try {
+
         const response = await fetch("bookTicket.php", { method: "POST", body: formData });
         const result = await response.json();
-
+      
         if (result.status === "success") {
             Swal.fire({
                 title: "Ticket Booked!",
@@ -83,8 +84,8 @@ document.getElementById("ticketForm").addEventListener("click", async function (
                 confirmButtonText: "Print Ticket",
                 showCancelButton: true,
                 cancelButtonText: "Close",
-            }).then((action) => {
-                if (action.isConfirmed) {                    
+            }).then((e) => {
+                if (e.isConfirmed) {           
                     const ticketContent = `
                         Ticket Details:
                         -----------------------------------------
@@ -100,11 +101,9 @@ document.getElementById("ticketForm").addEventListener("click", async function (
                     const doc = new jsPDF();
                     doc.text(ticketContent, 10, 10);
                     doc.save("ticket.pdf");
+                    document.getElementById("userBalance").innerText = `Balance: $${result.balance}`;
                 }
             });
-
-            // Update user balance
-            document.getElementById("userBalance").innerText = `Balance: $${result.balance}`;
         } else {
             Swal.fire({
                 title: "Error",
@@ -112,21 +111,13 @@ document.getElementById("ticketForm").addEventListener("click", async function (
                 icon: "error",
             });
         }
-    } catch (error) {
-        console.error("Error booking ticket:", error);
-        Swal.fire({
-            title: "Error",
-            text: "An unexpected error occurred. Please try again later.",
-            icon: "error",
-        });
-    }
+    
 });
 
 
 
 // Fetch and display user balance
 async function fetchUserBalance() {
-    try {
         // Fetch User ID from the server
         const userIdResponse = await fetch("getUserId.php");
         const userIdResult = await userIdResponse.json();
@@ -152,12 +143,6 @@ async function fetchUserBalance() {
         } else {
             console.error("Error fetching balance:", result.message);
         }
-    } catch (error) {
-        console.error("Error fetching balance:", error);
-    }
 }
 
-// Call fetchUserBalance on page load
-document.addEventListener("DOMContentLoaded", () => {
     fetchUserBalance();
-});

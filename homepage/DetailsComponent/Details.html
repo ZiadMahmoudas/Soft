@@ -82,7 +82,7 @@
             <form  class="flex-column d-flex justify-content-center">
                 <div class="mb-3">
                   <select id="source" class="form-select" aria-label="Source">
-                    <option selected>Source Way</option>
+                    <option selected value="">Source Way</option>
                     <option value="Cairo">Cairo</option>
                     <option value="Giza">Giza</option>
                     <option value="Alexandria">Alexandria</option>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="mb-3">
                   <select id="destination" class="form-select" aria-label="Destination">
-                    <option selected>Destination Way</option>
+                    <option selected value="">Destination Way</option>
                     <option value="Luxor">Luxor</option>
                     <option value="Aswan">Aswan</option>
                     <option value="Alexandria">Alexandria</option>
@@ -140,21 +140,21 @@
                 </div>
                 <div class="mb-3">
                     <select id="class" class="form-select" aria-label="Class">
-                        <option selected>Class</option>
+                        <option selected value="">Class</option>
                         <option value="Economy">Economy</option>
                         <option value="VIP">VIP</option>
                       </select>
                 </div>
                 <div class="mb-3">
                     <select id="ticket_type" class="form-select" aria-label="Ticket Type">
-                        <option selected>Ticket Type</option>
+                        <option selected value="">Ticket Type</option>
                         <option value="One-way">One-way</option>
                         <option value="Round-trip">Round-trip</option>
                       </select>
                 </div>
                 <div class="mb-3">
                     <p id="price">Price: $0</p>
-                    <input type="hidden" id="priceInput" name="price" value="0">
+                    <span id="newPrice"></span>
                 </div>
                 <div class="mb-3">
                     <p id="userBalance">Balance: $0</p> 

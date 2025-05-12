@@ -19,7 +19,6 @@ $arrival_time = trim($data['Arrival_time']);
 try {
     $db = DBConnection::getInstance()->getConnection();
 
-    // Update train_station_times
     $stmt = $db->prepare("UPDATE train_station_times 
                           SET Train_name = :Train_name, Station_name = :Station_name, 
                               Departure_time = :Departure_time, Arrival_time = :Arrival_time
@@ -33,7 +32,6 @@ try {
     ]);
 
     if ($stmt->rowCount() > 0) {
-        // Update notification state in a JSON file
         $notificationData = ['updated' => true, 'message' => 'Train schedule has been updated. Please check the train schedule for updated timings.'];
         file_put_contents('../TrainSchedule/notification.json', json_encode($notificationData));
 

@@ -65,32 +65,3 @@ new Swiper('.MYswiper', {
     localStorage.removeItem("theme");
     window.location.href = 'http://localhost/Soft/auth/signup.html';
   });
-/* Change Language */
-import { translate } from "../../componentJS/translate.js";
-
-const setLanguage = (lang) => {
-  if (!translate[lang]) return;
-
-  const elements = document.querySelectorAll(".lang-text[data-lang]");
-  elements.forEach((el) => {
-    const key = el.getAttribute("data-lang");
-    el.textContent = translate[lang][key] || key;
-  });
-
-  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-  localStorage.setItem("lang", lang);
-};
-
-document.querySelectorAll(".dropdown-item").forEach((item) => {
-  item.addEventListener("click", () => {
-    const selectedLang = item.getAttribute("data-lang");
-    if (selectedLang) {
-      setLanguage(selectedLang);
-    }
-  });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const savedLang = localStorage.getItem("lang") || "en";
-  setLanguage(savedLang);
-})

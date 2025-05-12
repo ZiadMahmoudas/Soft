@@ -4,7 +4,6 @@ require_once '../../users.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
         $Source = $_POST['Source'] ?? null;
         $Destination = $_POST['Destination'] ?? null;
         $Class = $_POST['Class'] ?? null;
@@ -56,9 +55,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             throw new Exception('Unable to fetch balance.');
         }
-    } catch (Exception $e) {
-        error_log("Error in bookTicket.php: " . $e->getMessage());
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    }
 }
 ?>

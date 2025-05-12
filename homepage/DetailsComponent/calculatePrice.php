@@ -7,17 +7,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Class = $_POST['Class'];
     $Ticket_type = $_POST['Ticket_type'];
 
-    // Example logic for calculating price based on distance
-    $distance = abs(ord($Destination[0]) - ord($Source[0])) * 50; // Example: distance based on ASCII difference
+
+    $distance = abs(ord($Destination[0]) - ord($Source[0])) * 50; //150
+     // Alex Dhe  => A=>10    D => 13
+    // Example: distance based on ASCII difference
     $base_price = $distance;
 
     // Adjust price based on Class
     if ($Class === 'VIP') {
-        $base_price *= 1.5; // VIP is 50% more expensive
+        $base_price *= 1.5; 
     }
 
     // Adjust price for round-trip
-    if ($Ticket_type === 'Round-trip') {
+    if ($Ticket_type === 'Round-trip') { //450
         $base_price *= 2;
     }
 

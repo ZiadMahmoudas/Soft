@@ -1,12 +1,10 @@
-const regAddress = /^[a-zA-Z\s,]{3,}$/i;
+const regAddress = /^[a-z\s,]{3,}$/i;
 const regPassword = /^\w{4,}$/i;
 const regName = /^[a-zA-Z ]{2,}$/i;
-const regid = /^[0-9]{4,}/i;
 let btnSignUp = document.getElementById("signupForm");
 let namesignup = document.getElementById("name");
 let passSignup = document.getElementById("pass1");
 let addressSignup = document.getElementById("addressSignup");
-let id = document.getElementById("id")
 let btnLoginIN = document.getElementById("LoginForm");
 let namelogin = document.getElementById("name1");
 let passLogin = document.getElementById("pass");
@@ -35,7 +33,7 @@ btneye1.addEventListener("click", () => toggleEye(btneye1, passSignup));
 // Slide for forms
 document.querySelectorAll(".lnk-toggler").forEach(btn => {
   btn.addEventListener("click", function () {
-    const panelSelector = btn.getAttribute("data-panel");
+    const panelSelector = btn.dataset.panel;
     document.querySelectorAll(".authfy-panel").forEach(panel => panel.classList.remove("active"));
     document.querySelector(panelSelector).classList.add("active");
   });
@@ -99,7 +97,6 @@ passLogin.addEventListener("input", () => {
 
 // Signup button click handler
 btnSignUp.addEventListener("click", async function (e) {
-
 
   const fields = {
     name: namesignup.value.trim(),
@@ -185,11 +182,9 @@ btnLoginIN.addEventListener("click", async function (e) {
     formData.append("name", fields.name);
     formData.append("password", fields.password);
 
-    try {
+  
       const response = await fetch('signup.php', { method: 'POST', body: formData });
       const result = await response.json(); 
-      console.log("Login response:", result);
-
       formlogin.reset();
       if (result.status === "success") {
         Swal.fire({
@@ -211,10 +206,7 @@ btnLoginIN.addEventListener("click", async function (e) {
           title: 'Login Failed',
           text: result.message
         });
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+      } 
   }
 });
 

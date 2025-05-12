@@ -7,7 +7,6 @@ abstract class Person {
     public function __construct() {
         $this->db = DBConnection::getInstance()->getConnection();
     }
-
     abstract public function login($name, $Password);
     abstract public function signup($name, $Address, $Password);
     abstract public function logout();
@@ -189,7 +188,6 @@ class Ticket {
 
             $this->db->prepare("UPDATE users SET Balance = Balance - :Price WHERE User_id = :User_id")
                      ->execute([':Price' => $Price, ':User_id' => $User_id]);
-
             return "Ticket booked!";
         } else {
             return "Insufficient Balance.";
