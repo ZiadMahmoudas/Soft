@@ -28,17 +28,25 @@ class AdminManager {
         if ($this->isAdmin($admin_id)) {
             $stmt = $this->db->prepare("DELETE FROM users WHERE user_id = :user_id");
             $stmt->execute([':user_id' => $user_id]);
+            error_log("Rows affected: " . $stmt->rowCount()); // Debugging log
+            if ($stmt->rowCount() > 0) {
+                return true; // User deleted successfully
+            } else {
+                throw new Exception("User not found or could not be deleted.");
+            }
         } else {
             throw new Exception("Unauthorized action.");
         }
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $adminManager = new AdminManager();
 
-        if ($_POST['action'] === 'update_balance') {
+        $action = $_POST['action'] ?? null;
+
+        if ($action === 'update_balance') {
             if (isset($_POST['admin_id'], $_POST['user_id'], $_POST['new_balance'])) {
                 $admin_id = $_POST['admin_id'];
                 $user_id = $_POST['user_id'];
@@ -48,18 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Missing required parameters.']);
             }
-        } elseif ($_POST['action'] === 'delete_user') {
-            $admin_id = 1; // Hardcoded admin ID
-            if (isset($_POST['user_id'])) {
-                $user_id = $_POST['user_id'];
-                if (is_numeric($user_id)) {
-                    $adminManager->deleteUser($admin_id, $user_id);
+        } elseif ($action === 'delete_user') {
+            $user_id = $_POST['user_id'] ?? null;
+            error_log("Received user_id: " . $user_id); // Log the user_id for debugging
+
+            if ($user_id && is_numeric($user_id)) {
+                try {
+                    $adminManager->deleteUser(1, $user_id); // Assuming admin_id is 1
                     echo json_encode(['status' => 'success', 'message' => 'User deleted successfully']);
-                } else {
-                    echo json_encode(['status' => 'error', 'message' => 'Invalid user_id.']);
+                } catch (Exception $e) {
+                    error_log("Error deleting user: " . $e->getMessage());
+                    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
                 }
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Missing required parameters.']);
+                error_log("Invalid or missing user_id");
+                echo json_encode(['status' => 'error', 'message' => 'Invalid or missing user_id.']);
             }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid action.']);

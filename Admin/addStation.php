@@ -20,7 +20,7 @@ if (empty($station_name) || empty($city)) {
 
 try {
     $db = DBConnection::getInstance()->getConnection();
-    $stmt = $db->prepare("INSERT INTO stations (station_name, city) VALUES (:station_name, :city)");
+    $stmt = $db->prepare("INSERT INTO station (station_name, city) VALUES (:station_name, :city)");
     $stmt->execute([
         ':station_name' => $station_name,
         ':city' => $city,

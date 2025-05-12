@@ -37,25 +37,6 @@
             <!-- Train Schedule -->
             <div class="tab-pane fade show active" id="trainSchedule">
                 <h1>Manage Train Schedule</h1>
-                <form id="addTrainScheduleForm" class="mb-4">
-                    <div class="mb-3">
-                        <label for="trainName" class="form-label">Train Name</label>
-                        <input type="text" id="trainName" class="form-control" placeholder="Enter train name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="stationName" class="form-label">Station Name</label>
-                        <input type="text" id="stationName" class="form-control" placeholder="Enter station name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="departureTime" class="form-label">Departure Time</label>
-                        <input type="datetime-local" id="departureTime" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="arrivalTime" class="form-label">Arrival Time</label>
-                        <input type="datetime-local" id="arrivalTime" class="form-control" required>
-                    </div>
-                    <button type="button" id="addTrainScheduleBtn" class="btn btn-primary">Add Train Schedule</button>
-                </form>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -110,6 +91,7 @@
                             <th>Station ID</th>
                             <th>Station Name</th>
                             <th>City</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="stationTable">
@@ -146,6 +128,26 @@
             </form>
         </div>
     </div>
+
+    <!-- Edit Station Popup -->
+    <div id="editStationPopup" class="popup hidden">
+        <div class="popup-content">
+            <h3>Edit Station</h3>
+            <form id="editStationForm">
+                <div class="mb-3">
+                    <label for="editStationName" class="form-label">Station Name</label>
+                    <input type="text" id="editStationName" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="editCity" class="form-label">City</label>
+                    <input type="text" id="editCity" class="form-control" required>
+                </div>
+                <button type="button" id="saveStationChanges" class="btn btn-primary">Save Changes</button>
+                <button type="button" id="closeStationPopup" class="btn btn-secondary">Close</button>
+            </form>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>

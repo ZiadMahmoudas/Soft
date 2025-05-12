@@ -14,6 +14,8 @@ async function fetchTrainSchedule() {
         const response = await fetch("getTrainSchedule.php");
         const data = await response.json();
         trainScheduleTable.innerHTML = "";
+    
+    
         data.forEach((schedule) => {
             const row = document.createElement("tr");
             row.innerHTML = `
@@ -106,6 +108,8 @@ async function saveBalance(userId) {
 
 // Delete User
 async function deleteUser(userId) {
+    console.log("Attempting to delete user with ID:", userId); // Debugging log
+
     const confirmation = await Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
@@ -126,6 +130,7 @@ async function deleteUser(userId) {
             body: JSON.stringify({ action: "delete_user", user_id: userId }),
         });
         const result = await response.json();
+        console.log("Response from server:", result); // Debugging log
         if (result.status === "success") {
             Swal.fire({
                 icon: 'success',
@@ -157,101 +162,31 @@ async function fetchStations() {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${station.station_id}</td>
+                <td>${station.station_name}</td>
+                <td>${station.city || 'N/A'}</td> <!-- Default to 'N/A' if city is undefined -->
                 <td>
-                    <input type="text" class="form-control station-name" value="${station.station_name}" data-id="${station.station_id}">
-                </td>
-                <td>
-                    <input type="text" class="form-control station-city" value="${station.city}" data-id="${station.station_id}">
-                </td>
-                <td>
-                    <button class="btn btn-primary btn-sm update-station" data-id="${station.station_id}">Update</button>
+                    <button class="btn btn-warning btn-sm edit-station" data-id="${station.station_id}">Edit</button>
                     <button class="btn btn-danger btn-sm delete-station" data-id="${station.station_id}">Delete</button>
                 </td>
             `;
             stationTable.appendChild(row);
         });
 
-        // Attach event listeners for updating and deleting stations
-        document.querySelectorAll(".update-station").forEach((button) => {
-            button.addEventListener("click", () => updateStation(button.dataset.id));
+        // Attach event listeners for editing and deleting stations
+        document.querySelectorAll(".edit-station").forEach((button) => {
+            button.addEventListener("click", async () => {
+                const stationId = button.dataset.id;
+                const response = await fetch(`getStationById.php?id=${stationId}`);
+                const station = await response.json();
+                showEditStationPopup(station);
+            });
         });
+
         document.querySelectorAll(".delete-station").forEach((button) => {
             button.addEventListener("click", () => deleteStation(button.dataset.id));
         });
     } catch (error) {
         console.error("Error fetching stations:", error);
-    }
-}
-
-// Update Station
-async function updateStation(stationId) {
-    const stationName = document.querySelector(`.station-name[data-id="${stationId}"]`).value.trim();
-    const city = document.querySelector(`.station-city[data-id="${stationId}"]`).value.trim();
-
-    if (!stationName || !city) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Missing Fields',
-            text: 'Please fill in all fields.',
-        });
-        return;
-    }
-
-    try {
-        const response = await fetch("updateStation.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ station_id: stationId, station_name: stationName, city }),
-        });
-        const result = await response.json();
-        if (result.status === "success") {
-            Swal.fire({
-                icon: 'success',
-                title: 'Updated Successfully',
-                text: 'Station updated successfully.',
-                timer: 2000,
-                showConfirmButton: true
-            });
-            fetchStations();
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Update Failed',
-                text: result.message
-            });
-        }
-    } catch (error) {
-        console.error("Error updating station:", error);
-    }
-}
-
-// Delete Station
-async function deleteStation(stationId) {
-    try {
-        const response = await fetch("deleteStation.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ station_id: stationId }),
-        });
-        const result = await response.json();
-        if (result.status === "success") {
-            Swal.fire({
-                icon: 'success',
-                title: 'Deleted Successfully',
-                text: 'Station deleted successfully.',
-                timer: 2000,
-                showConfirmButton: true
-            });
-            fetchStations();
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Deletion Failed',
-                text: result.message
-            });
-        }
-    } catch (error) {
-        console.error("Error deleting station:", error);
     }
 }
 
@@ -269,8 +204,6 @@ document.getElementById("addStationBtn").addEventListener("click", async () => {
         return;
     }
 
-    console.log("Sending data:", { station_name: stationName, city }); // Debugging log
-
     try {
         const response = await fetch("addStation.php", {
             method: "POST",
@@ -278,21 +211,20 @@ document.getElementById("addStationBtn").addEventListener("click", async () => {
             body: JSON.stringify({ station_name: stationName, city }),
         });
         const result = await response.json();
-        console.log("Response from server:", result); // Debugging log
         if (result.status === "success") {
             Swal.fire({
                 icon: 'success',
                 title: 'Added Successfully',
                 text: 'Station added successfully.',
                 timer: 2000,
-                showConfirmButton: true
+                showConfirmButton: true,
             });
             fetchStations();
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Addition Failed',
-                text: result.message
+                text: result.message,
             });
         }
     } catch (error) {
@@ -300,14 +232,21 @@ document.getElementById("addStationBtn").addEventListener("click", async () => {
     }
 });
 
-// Add Train Schedule
-document.getElementById("addTrainScheduleBtn").addEventListener("click", async () => {
-    const trainName = document.getElementById("trainName").value.trim();
-    const stationName = document.getElementById("stationName").value.trim();
-    const departureTime = document.getElementById("departureTime").value.trim();
-    const arrivalTime = document.getElementById("arrivalTime").value.trim();
+// Edit Station
+function showEditStationPopup(station) {
+    const popup = document.getElementById("editStationPopup");
+    document.getElementById("editStationName").value = station.station_name || ''; // Default to empty string if undefined
+    document.getElementById("editCity").value = station.city || ''; // Default to empty string if undefined
+    popup.dataset.stationId = station.station_id; // Store station ID
+    popup.classList.remove("hidden");
+}
 
-    if (!trainName || !stationName || !departureTime || !arrivalTime) {
+document.getElementById("saveStationChanges").addEventListener("click", async () => {
+    const stationId = document.getElementById("editStationPopup").dataset.stationId;
+    const newStationName = document.getElementById("editStationName").value.trim();
+    const newCity = document.getElementById("editCity").value.trim();
+
+    if (!stationId || !newStationName || !newCity) {
         Swal.fire({
             icon: 'error',
             title: 'Missing Fields',
@@ -317,37 +256,80 @@ document.getElementById("addTrainScheduleBtn").addEventListener("click", async (
     }
 
     try {
-        const response = await fetch("addTrainSchedule.php", {
+        const response = await fetch("updateStation.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                train_name: trainName,
-                station_name: stationName,
-                departure_time: departureTime,
-                arrival_time: arrivalTime,
-            }),
+            body: JSON.stringify({ station_id: stationId, station_name: newStationName, city: newCity }),
         });
         const result = await response.json();
         if (result.status === "success") {
             Swal.fire({
                 icon: 'success',
-                title: 'Added Successfully',
-                text: 'Train schedule added successfully.',
+                title: 'Updated Successfully',
+                text: 'Station updated successfully.',
                 timer: 2000,
-                showConfirmButton: true
+                showConfirmButton: true,
             });
-            fetchTrainSchedule();
+            fetchStations();
+            document.getElementById("editStationPopup").classList.add("hidden");
         } else {
             Swal.fire({
                 icon: 'error',
-                title: 'Addition Failed',
-                text: result.message
+                title: 'Update Failed',
+                text: result.message,
             });
         }
     } catch (error) {
-        console.error("Error adding train schedule:", error);
+        console.error("Error updating station:", error);
     }
 });
+
+document.getElementById("closeStationPopup").addEventListener("click", () => {
+    document.getElementById("editStationPopup").classList.add("hidden");
+});
+
+// Delete Station
+async function deleteStation(stationId) {
+    const confirmation = await Swal.fire({
+        icon: 'warning',
+        title: 'Are you sure?',
+        text: 'This action will permanently delete the station.',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+    });
+
+    if (!confirmation.isConfirmed) {
+        return;
+    }
+
+    try {
+        const response = await fetch("deleteStation.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ station_id: stationId }),
+        });
+        const result = await response.json();
+        if (result.status === "success") {
+            Swal.fire({
+                icon: 'success',
+                title: 'Deleted Successfully',
+                text: 'Station deleted successfully.',
+                timer: 2000,
+                showConfirmButton: true,
+            });
+            fetchStations();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Deletion Failed',
+                text: result.message,
+            });
+        }
+    } catch (error) {
+        console.error("Error deleting station:", error);
+    }
+}
 
 // Show Popup
 function showEditPopup(schedule) {
@@ -356,6 +338,7 @@ function showEditPopup(schedule) {
     document.getElementById("editStationName").value = schedule.Station_name;
     document.getElementById("editDepartureTime").value = schedule.Departure_time;
     document.getElementById("editArrivalTime").value = schedule.Arrival_time;
+    popup.dataset.scheduleId = schedule.id; // Store schedule ID
     popup.classList.remove("hidden");
 }
 
@@ -368,10 +351,19 @@ document.getElementById("closePopup").addEventListener("click", () => {
 // Save Changes
 document.getElementById("saveTrainChanges").addEventListener("click", async () => {
     const scheduleId = document.getElementById("editTrainPopup").dataset.scheduleId;
-    const newTrainName = document.getElementById("editTrainName").value;
-    const newStationName = document.getElementById("editStationName").value;
-    const newDepartureTime = document.getElementById("editDepartureTime").value;
-    const newArrivalTime = document.getElementById("editArrivalTime").value;
+    const newTrainName = document.getElementById("editTrainName").value.trim();
+    const newStationName = document.getElementById("editStationName").value.trim();
+    const newDepartureTime = document.getElementById("editDepartureTime").value.trim();
+    const newArrivalTime = document.getElementById("editArrivalTime").value.trim();
+
+    if (!scheduleId || !newTrainName || !newStationName || !newDepartureTime || !newArrivalTime) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Missing Fields',
+            text: 'Please fill in all fields.',
+        });
+        return;
+    }
 
     try {
         const response = await fetch("updateTrainSchedule.php", {
@@ -394,7 +386,7 @@ document.getElementById("saveTrainChanges").addEventListener("click", async () =
                 timer: 2000,
                 showConfirmButton: false,
             });
-            fetchTrainSchedule();
+            fetchTrainSchedule(); // Refresh the train schedule table
             document.getElementById("editTrainPopup").classList.add("hidden");
         } else {
             Swal.fire({

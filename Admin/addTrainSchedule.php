@@ -15,13 +15,17 @@ $arrival_time = $data['arrival_time'];
 
 try {
     $db = DBConnection::getInstance()->getConnection();
-    $stmt = $db->prepare("INSERT INTO train_station_times (Train_name, Station_name, Departure_time, Arrival_time) VALUES (:train_name, :station_name, :departure_time, :arrival_time)");
+
+    // Insert into train_station_times
+    $stmt = $db->prepare("INSERT INTO train_station_times (Train_name, Station_name, Departure_time, Arrival_time) 
+                          VALUES (:train_name, :station_name, :departure_time, :arrival_time)");
     $stmt->execute([
         ':train_name' => $train_name,
         ':station_name' => $station_name,
         ':departure_time' => $departure_time,
         ':arrival_time' => $arrival_time,
     ]);
+
     echo json_encode(['status' => 'success', 'message' => 'Train schedule added successfully.']);
 } catch (Exception $e) {
     error_log("Error adding train schedule: " . $e->getMessage());

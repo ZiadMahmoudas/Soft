@@ -73,20 +73,38 @@ document.getElementById("ticketForm").addEventListener("click", async function (
 
     try {
         const response = await fetch("bookTicket.php", { method: "POST", body: formData });
-        const textResponse = await response.text(); 
-        console.log("Raw Response:", textResponse); 
-        const result = JSON.parse(textResponse); 
-       console.log(textResponse);
-       
+        const result = await response.json();
+
         if (result.status === "success") {
             Swal.fire({
-                title: "Success",
-                text: result.message,
+                title: "Ticket Booked!",
+                text: "Your ticket has been successfully booked.",
                 icon: "success",
-                confirmButtonText: "OK",
-            }).then(() => {
-                document.getElementById("userBalance").innerText = `Balance: $${result.balance}`; // تحديث الرصيد
+                confirmButtonText: "Print Ticket",
+                showCancelButton: true,
+                cancelButtonText: "Close",
+            }).then((action) => {
+                if (action.isConfirmed) {                    
+                    const ticketContent = `
+                        Ticket Details:
+                        -----------------------------------------
+                        Source: ${result.ticket.Source}
+                        Destination: ${result.ticket.Destination}
+                        Class: ${result.ticket.Class}
+                        Ticket Type: ${result.ticket.Ticket_type}
+                        Price: $${result.ticket.Price}
+                        -----------------------------------------
+                        Thank you for booking with Train Station!
+                    `;
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+                    doc.text(ticketContent, 10, 10);
+                    doc.save("ticket.pdf");
+                }
             });
+
+            // Update user balance
+            document.getElementById("userBalance").innerText = `Balance: $${result.balance}`;
         } else {
             Swal.fire({
                 title: "Error",
@@ -103,6 +121,8 @@ document.getElementById("ticketForm").addEventListener("click", async function (
         });
     }
 });
+
+
 
 // Fetch and display user balance
 async function fetchUserBalance() {

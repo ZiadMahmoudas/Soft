@@ -19,11 +19,11 @@ class DBConnection {
 
     private function __construct() {
         try {
-            $this->connection = new PDO("mysql:host=localhost;dbname=soft4", "root", "");
+            $this->connection = new PDO("mysql:host=localhost;dbname=softwareproject", "root", "");
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-            error_log("Database connection established successfully."); // تسجيل نجاح الاتصال
+            error_log("Database connection established successfully."); 
         } catch (PDOException $e) {
-            error_log("Database connection failed: " . $e->getMessage()); // تسجيل الخطأ
+            error_log("Database connection failed: " . $e->getMessage()); 
             die("Database connection failed: " . $e->getMessage());
         }
     }
@@ -48,7 +48,7 @@ class User extends Person {
 
         if ($user) {
             session_start();
-            $_SESSION['USER'] = $user; // تخزين بيانات المستخدم في الجلسة
+            $_SESSION['USER'] = $user; 
             return $user;
         }
         return null;
@@ -57,7 +57,7 @@ class User extends Person {
     public function getUserDetails() {
         session_start();
         if (isset($_SESSION['USER'])) {
-            return $_SESSION['USER']; // إرجاع بيانات المستخدم من الجلسة
+            return $_SESSION['USER']; 
         }
         return "NO USER IS LOGGED IN.";
     }
@@ -89,10 +89,10 @@ class User extends Person {
         $balance = $stmt->fetch(PDO::FETCH_OBJ);
 
         if ($balance && isset($balance->Balance)) {
-            return $balance; // Return the balance object
+            return $balance; 
         } else {
-            error_log("Balance not found for User ID: " . $User_id); // Debugging
-            return null; // Return null if no balance found
+            error_log("Balance not found for User ID: " . $User_id); 
+            return null; 
         }
     }
 
@@ -241,6 +241,7 @@ class Notification {
     }
 }
 
+
 class Station {
     protected $db;
 
@@ -249,17 +250,50 @@ class Station {
     }
 
     public function addStation($name, $city) {
-        $sql = "INSERT INTO station (station_name, city) VALUES (:name, :city)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([':name' => $name, ':city' => $city]);
+        try {
+            $sql = "INSERT INTO station (station_name, city) VALUES (:name, :city)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':name' => $name, ':city' => $city]);
+            return $this->db->lastInsertId();
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public function getAllStations() {
-        $sql = "SELECT station_id, station_name, city FROM station";
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // تأكد من إرجاع البيانات كـ Array
+        try {
+            $sql = "SELECT station_id, station_name, city FROM station";
+            $stmt = $this->db->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function deleteStation($stationId) {
+        try {
+            $sql = "DELETE FROM station WHERE station_id = :stationId";
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute([':stationId' => $stationId]);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    public function updateStation($stationId, $name, $city) {
+        try {
+            $sql = "UPDATE station SET station_name = :name, city = :city WHERE station_id = :stationId";
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute([
+                ':name' => $name,
+                ':city' => $city,
+                ':stationId' => $stationId
+            ]);
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 }
+
 /* Train => Name  */
 class Train {
     protected $db;
@@ -301,6 +335,15 @@ class Train {
             ':train_id' => $train_id
         ]);
         echo " Train ID $train_id updated to Name: '$new_name', Status: '$new_status'" . PHP_EOL;
+    }
+    public function deleteTrain($train_id) {
+        try {
+            $sql = "DELETE FROM trains WHERE train_id = :train_id";
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute([':train_id' => $train_id]);
+        } catch (PDOException $e) {
+            return false;
+        }
     }
     
 }
@@ -387,5 +430,11 @@ class TrainSchedule {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-
+// $add=new Station();
+// $add->addStation('cairo','cairo');
+// $sign=new User();
+// $sign->signup("karim","darfouad","212121");
+// $add->updateStation(1212,"saadZagloul","Sadat");
+// $tra=new Train();
+// $tra->addTrain("concate","");
 ?>
