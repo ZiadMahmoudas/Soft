@@ -108,8 +108,6 @@ async function saveBalance(userId) {
 
 // Delete User
 async function deleteUser(userId) {
-    console.log("Attempting to delete user with ID:", userId); // Debugging log
-
     const confirmation = await Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
@@ -124,33 +122,39 @@ async function deleteUser(userId) {
     }
 
     try {
-        const response = await fetch("admin.php", {
+        const response = await fetch("deleteUser.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ action: "delete_user", user_id: userId }),
+            body: JSON.stringify({ user_id: userId }),
         });
         const result = await response.json();
-        console.log("Response from server:", result); // Debugging log
         if (result.status === "success") {
             Swal.fire({
                 icon: 'success',
                 title: 'Deleted Successfully',
                 text: 'User deleted successfully.',
                 timer: 2000,
-                showConfirmButton: true
+                showConfirmButton: true,
             });
             fetchUsers(); // Refresh the user list
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Deletion Failed',
-                text: result.message
+                text: result.message,
             });
         }
     } catch (error) {
         console.error("Error deleting user:", error);
     }
 }
+
+// Attach Delete Button Event
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".delete-user").forEach((button) => {
+        button.addEventListener("click", () => deleteUser(button.dataset.id));
+    });
+});
 
 // Fetch Stations
 async function fetchStations() {
